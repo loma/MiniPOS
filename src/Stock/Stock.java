@@ -9,6 +9,6 @@ package Stock;
  *
  * @author Keo
  */
-public class stock {
+public class Stock {
     
 }
