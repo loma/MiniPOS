@@ -15,14 +15,14 @@ import java.util.ArrayList;
 public class Sale {
     String name;
     int id,price;
- ArrayList<Product> pro = new ArrayList<Product>();
+    ArrayList<Product> prod   = new ArrayList<Product>();
     public void addProduct(Product p1) {
-        pro.add(p1);
+        prod.add(p1);
     }
 
     public double getTotalPrice() {
         int sum=0;
-        for(Product p: pro){
+        for(Product p: prod){
             sum += p.price();
         }
         return sum;
@@ -30,13 +30,12 @@ public class Sale {
 
     public Product findProduct(String id) {
         
-        for(Product p: pro){
+        for(Product p: prod){
             if(p.id().equals(id))
                 return p;
         }
         return null;        
     }
-
     public void removeProduct(String string) {
     }
 }
