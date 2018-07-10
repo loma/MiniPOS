@@ -24,5 +24,9 @@ public class Stock {
 
         return sum;
     }
+
+    public Product findProduct(String string) {
+        return null;
+    }
     
 }

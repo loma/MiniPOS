@@ -36,8 +36,8 @@ public class MiniPOS {
 
         Product p = sale.findProduct("1");
         if (p != null) {
-            System.out.print("name:" +p.name());
-            System.out.print("price:" +p.price());
+            System.out.println("name:" +p.name());
+            System.out.println("price:" +p.price());
         }
 
         System.out.println("Stock");
@@ -50,6 +50,11 @@ public class MiniPOS {
         totalPrice = stock.getTotalPrice(); // 40
         System.out.println(totalPrice);
         
+        p = stock.findProduct("1");
+        if (p != null) {
+            System.out.println("name:" +p.name());
+            System.out.println("price:" +p.price());
+        }
         
     }
     
