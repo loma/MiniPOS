@@ -10,5 +10,12 @@ package Stock;
  * @author Keo
  */
 public class Stock {
+
+    public void addProduct(Product p1) {
+    }
+
+    public double getTotalPrice() {
+        return 0;
+    }
     
 }

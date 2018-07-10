@@ -7,6 +7,7 @@ package minipos;
 
 import Sale.Sale;
 import Stock.Product;
+import Stock.Stock;
 
 /**
  *
@@ -23,6 +24,7 @@ public class MiniPOS {
         Product p2 = new Product("name2", 30);
         Product p3 = new Product("name3", 20);
 
+        System.out.println("Sale");
         Sale sale = new Sale();
         sale.addProduct(p1);
         double totalPrice = sale.getTotalPrice(); // 10
@@ -30,6 +32,16 @@ public class MiniPOS {
 
         sale.addProduct(p2);
         totalPrice = sale.getTotalPrice(); // 40
+        System.out.println(totalPrice);
+
+        System.out.println("Stock");
+        Stock stock = new Stock();
+        stock.addProduct(p1);
+        totalPrice = stock.getTotalPrice(); // 10
+        System.out.println(totalPrice);
+
+        stock.addProduct(p2);
+        totalPrice = stock.getTotalPrice(); // 40
         System.out.println(totalPrice);
         
         
