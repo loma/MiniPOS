@@ -27,4 +27,8 @@ public class Product {
     public String name() {
         return name;
     }
+
+    public String id() {
+        return id;
+    }
 }
