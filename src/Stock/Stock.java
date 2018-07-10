@@ -4,18 +4,25 @@
  * and open the template in the editor.
  */
 package Stock;
+import java.util.ArrayList;
 
 /**
  *
  * @author Keo
  */
 public class Stock {
+    ArrayList<Product> productList = new ArrayList<Product>();
 
     public void addProduct(Product p1) {
+        productList.add(p1);
     }
 
     public double getTotalPrice() {
-        return 0;
+        int sum = 0;
+        for (Product p : productList)
+            sum += p.price();
+
+        return sum;
     }
     
 }

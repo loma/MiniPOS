@@ -12,7 +12,14 @@ package Stock;
 public class Product {
    int id;
    String name;
+       int price;
 
     public Product(String name1, int i) {
+        name = name1;
+        price = i;
+    }
+
+    public int price() {
+        return price;
     }
 }
