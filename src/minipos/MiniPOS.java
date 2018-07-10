@@ -5,6 +5,9 @@
  */
 package minipos;
 
+import Sale.Sale;
+import Stock.Product;
+
 /**
  *
  * @author Keo
@@ -15,7 +18,21 @@ public class MiniPOS {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+
+        Product p1 = new Product("name1", 10);
+        Product p2 = new Product("name2", 30);
+        Product p3 = new Product("name3", 20);
+
+        Sale sale = new Sale();
+        sale.addProduct(p1);
+        double totalPrice = sale.getTotalPrice(); // 10
+        System.out.println(totalPrice);
+
+        sale.addProduct(p2);
+        totalPrice = sale.getTotalPrice(); // 40
+        System.out.println(totalPrice);
+        
+        
     }
     
 }

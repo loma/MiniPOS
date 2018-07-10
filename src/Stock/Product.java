@@ -12,4 +12,7 @@ package Stock;
 public class Product {
    int id;
    String name;
+
+    public Product(String name1, int i) {
+    }
 }

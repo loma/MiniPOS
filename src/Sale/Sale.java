@@ -5,10 +5,20 @@
  */
 package Sale;
 
+import Stock.Product;
+
 /**
  *
  * @author Keo
  */
 public class Sale {
+
+    public void addProduct(Product p1) {
+        
+    }
+
+    public double getTotalPrice() {
+        return 0;
+    }
     
 }
