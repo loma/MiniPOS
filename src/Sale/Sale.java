@@ -30,6 +30,10 @@ public class Sale {
 
     public Product findProduct(String id) {
         
+        for(Product p: pro){
+            if(p.id().equals(id))
+                return p;
+        }
         return null;        
     }
 }
