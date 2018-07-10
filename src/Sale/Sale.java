@@ -20,5 +20,8 @@ public class Sale {
     public double getTotalPrice() {
         return 0;
     }
-    
+
+    public Product findProduct(String id) {
+        return null;        
+    }
 }

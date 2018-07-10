@@ -10,16 +10,21 @@ package Stock;
  * @author Trivico
  */
 public class Product {
-   int id;
-   String name;
-       int price;
+    String id;
+    String name;
+    int price;
 
-    public Product(String name1, int i) {
-        name = name1;
-        price = i;
+    public Product(String id, String name, int price) {
+        this.id = id;
+        this.name = name;
+        this.price = price;
     }
 
     public int price() {
         return price;
+    }
+
+    public String name() {
+        return name;
     }
 }

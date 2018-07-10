@@ -20,9 +20,9 @@ public class MiniPOS {
      */
     public static void main(String[] args) {
 
-        Product p1 = new Product("name1", 10);
-        Product p2 = new Product("name2", 30);
-        Product p3 = new Product("name3", 20);
+        Product p1 = new Product("1", "name1", 10);
+        Product p2 = new Product("2", "name2", 30);
+        Product p3 = new Product("3", "name3", 20);
 
         System.out.println("Sale");
         Sale sale = new Sale();
@@ -33,6 +33,12 @@ public class MiniPOS {
         sale.addProduct(p2);
         totalPrice = sale.getTotalPrice(); // 40
         System.out.println(totalPrice);
+
+        Product p = sale.findProduct("1");
+        if (p != null) {
+            System.out.print("name:" +p.name());
+            System.out.print("price:" +p.price());
+        }
 
         System.out.println("Stock");
         Stock stock = new Stock();
