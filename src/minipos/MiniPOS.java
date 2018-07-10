@@ -28,33 +28,45 @@ public class MiniPOS {
         Sale sale = new Sale();
         sale.addProduct(p1);
         double totalPrice = sale.getTotalPrice(); // 10
-        System.out.println(totalPrice);
+        System.out.println("After add 1: "+ totalPrice);
 
         sale.addProduct(p2);
         totalPrice = sale.getTotalPrice(); // 40
-        System.out.println(totalPrice);
+        System.out.println("After add 2: " + totalPrice);
 
+        System.out.println("Find product with id 1");
         Product p = sale.findProduct("1");
         if (p != null) {
             System.out.println("name:" +p.name());
             System.out.println("price:" +p.price());
         }
 
+        sale.removeProduct("1");
+        totalPrice = sale.getTotalPrice();
+        System.out.println("After remove:" + totalPrice);
+
+        System.out.println();
         System.out.println("Stock");
         Stock stock = new Stock();
         stock.addProduct(p1);
         totalPrice = stock.getTotalPrice(); // 10
         System.out.println(totalPrice);
+        System.out.println("After add 1: "+ totalPrice);
 
         stock.addProduct(p2);
         totalPrice = stock.getTotalPrice(); // 40
         System.out.println(totalPrice);
+        System.out.println("After add 2: "+ totalPrice);
         
         p = stock.findProduct("1");
         if (p != null) {
             System.out.println("name:" +p.name());
             System.out.println("price:" +p.price());
         }
+
+        stock.removeProduct("1");
+        totalPrice = stock.getTotalPrice();
+        System.out.println("After remove:" + totalPrice);
         
     }
     

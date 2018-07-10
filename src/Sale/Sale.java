@@ -36,4 +36,7 @@ public class Sale {
         }
         return null;        
     }
+
+    public void removeProduct(String string) {
+    }
 }

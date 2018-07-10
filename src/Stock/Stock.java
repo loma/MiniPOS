@@ -28,5 +28,8 @@ public class Stock {
     public Product findProduct(String string) {
         return null;
     }
+
+    public void removeProduct(String string) {
+    }
     
 }
