@@ -10,5 +10,6 @@ package Stock;
  * @author Trivico
  */
 public class Product {
-    
+   int id;
+   String name;
 }
