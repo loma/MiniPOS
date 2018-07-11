@@ -31,12 +31,17 @@ public class MiniPOS {
         printReceipt(sale);
 
         sale.addProduct(p2);
-        System.out.println("Add product 1");
+        System.out.println("Add product 2");
         printReceipt(sale);
 
         Product p = sale.findProduct("1");
         p.setPrice(9);
         System.out.println("Update product 1 price to 9");
+        printReceipt(sale);
+
+        p = sale.findProduct("2");
+        p.setQuantity(3);
+        System.out.println("Update product 2 qty to 3");
         printReceipt(sale);
 
         sale.removeProduct("1");

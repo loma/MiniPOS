@@ -35,4 +35,7 @@ public class Product {
     public void setPrice(int i) {
         this.price =i;
     }
+
+    public void setQuantity(int i) {
+    }
 }
