@@ -78,4 +78,11 @@ public class Sale {
         return getTotalPayment() - subTotal();
     }
 
+    public void addDiscount(double d) {
+    }
+
+    public double getTotalDiscount() {
+        return 0;
+    }
+
 }

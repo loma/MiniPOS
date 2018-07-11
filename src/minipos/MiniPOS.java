@@ -50,6 +50,10 @@ public class MiniPOS {
         System.out.println("Remove product 1");
         printReceipt(sale);
 
+        sale.addDiscount(0.05);
+        System.out.println("After add discount 5%");
+        printReceipt(sale);
+
         sale.addPayment(50);
         System.out.println("After paid 50");
         printReceipt(sale);
@@ -69,6 +73,7 @@ public class MiniPOS {
                     p.name(), p.quantity(), p.price(), p.price() * p.quantity()));
         System.out.println("-----------------------------------------------");
         System.out.println("\t\t\tTotal:\t" +sale.getTotalPrice());
+        System.out.println("\t\t     Discount:\t" +sale.getTotalDiscount());
         System.out.println(String.format("\t\t\tVAT:\t%.2f", sale.getVAT()));
         System.out.println("\t\t     Subtotal:\t" +sale.subTotal());
         System.out.println("\t\t\t-----------------------");
