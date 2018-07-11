@@ -50,7 +50,7 @@ public class MiniPOS {
         System.out.println("Remove product 1");
         printReceipt(sale);
 
-        sale.addDiscount(0.05);
+        sale.setDiscount(0.05);
         System.out.println("After add discount 5%");
         printReceipt(sale);
 
@@ -74,15 +74,16 @@ public class MiniPOS {
         System.out.println("-----------------------------------------------");
         System.out.println("\t\t\tTotal:\t" +sale.getTotalPrice());
         System.out.println("\t\t     Discount:\t" +sale.getTotalDiscount());
-        System.out.println(String.format("\t\t\tVAT:\t%.2f", sale.getVAT()));
+        System.out.println("\t\t     --------------------------");
+        System.out.println(String.format("\t\t\t  VAT:\t%.2f", sale.getVAT()));
         System.out.println("\t\t     Subtotal:\t" +sale.subTotal());
-        System.out.println("\t\t\t-----------------------");
-        System.out.println("\t\t\tPaid:\t" +sale.getTotalPayment());
+        System.out.println("\t\t     --------------------------");
+        System.out.println("\t\t\t Paid:\t" +sale.getTotalPayment());
         if (sale.getTotalRemaining() >0)
             System.out.println("\t\t    Remaining:\t" +sale.getTotalRemaining());
 
         if (sale.getTotalChanges() >= 0)
-            System.out.println("\t\t       Changes:\t" +sale.getTotalChanges());
+            System.out.println("\t\t      Changes:\t" +sale.getTotalChanges());
 
         System.out.println();
         System.out.println();

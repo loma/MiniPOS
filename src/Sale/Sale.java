@@ -17,6 +17,7 @@ public class Sale {
     int id,price;
     ArrayList<Product> prod   = new ArrayList<Product>();
     ArrayList<Integer> payment   = new ArrayList<Integer>();
+    private double discount;
     public void addProduct(Product p1) {
         prod.add(p1);
     }
@@ -52,11 +53,11 @@ public class Sale {
     }
 
     public double getVAT() {
-        return getTotalPrice() * 0.1;
+        return (getTotalPrice()*(1-discount)) * 0.1;
     }
 
     public double subTotal() {
-        return getVAT()+getTotalPrice();
+        return getVAT()+(getTotalPrice()*(1-discount));
     }
 
     public void addPayment(int i) {
@@ -78,11 +79,12 @@ public class Sale {
         return getTotalPayment() - subTotal();
     }
 
-    public void addDiscount(double d) {
+    public void setDiscount(double d) {
+        this.discount = d;
     }
 
     public double getTotalDiscount() {
-        return 0;
+        return getTotalPrice()*discount;
     }
 
 }
