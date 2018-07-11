@@ -16,6 +16,7 @@ public class Sale {
     String name;
     int id,price;
     ArrayList<Product> prod   = new ArrayList<Product>();
+    ArrayList<Integer> payment   = new ArrayList<Integer>();
     public void addProduct(Product p1) {
         prod.add(p1);
     }
@@ -59,13 +60,22 @@ public class Sale {
     }
 
     public void addPayment(int i) {
+        payment.add(i);
     }
 
     public double getTotalPayment() {
-        return 0;
+        int sum = 0;
+        for (int eachPayment : payment)
+            sum += eachPayment;
+        return sum;
     }
 
     public double getTotalRemaining() {
+        return subTotal()-getTotalPayment();
+    }
+
+    public double getTotalChanges() {
         return 0;
     }
+
 }

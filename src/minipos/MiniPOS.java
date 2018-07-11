@@ -54,8 +54,8 @@ public class MiniPOS {
         System.out.println("After paid 50");
         printReceipt(sale);
 
-        sale.addPayment(49);
-        System.out.println("After paid 49");
+        sale.addPayment(100);
+        System.out.println("After paid 100");
         printReceipt(sale);
     }
 
@@ -69,10 +69,12 @@ public class MiniPOS {
                     p.name(), p.quantity(), p.price(), p.price() * p.quantity()));
         System.out.println("-----------------------------------------------");
         System.out.println("\t\t\tTotal:\t" +sale.getTotalPrice());
-        System.out.println("\t\t\tVAT:\t" +sale.getVAT());
+        System.out.println(String.format("\t\t\tVAT:\t%.2f", sale.getVAT()));
         System.out.println("\t\t     Subtotal:\t" +sale.subTotal());
         System.out.println("\t\t\tPaid:\t" +sale.getTotalPayment());
-        System.out.println("\t\t    Remaining:\t" +sale.getTotalRemaining());
+        if (sale.getTotalRemaining() >0)
+            System.out.println("\t\t    Remaining:\t" +sale.getTotalRemaining());
+        System.out.println("\t\t       Changes:\t" +sale.getTotalChanges());
         System.out.println();
         System.out.println();
     }
