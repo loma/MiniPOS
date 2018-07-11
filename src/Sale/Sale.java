@@ -37,5 +37,12 @@ public class Sale {
         return null;        
     }
     public void removeProduct(String string) {
+
+        for(Product p: prod){
+            if(p.id().equals(string))
+                prod.remove(p);
+                
+        }
+        
     }
 }
