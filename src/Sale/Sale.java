@@ -55,6 +55,17 @@ public class Sale {
     }
 
     public double subTotal() {
+        return getVAT()+getTotalPrice();
+    }
+
+    public void addPayment(int i) {
+    }
+
+    public double getTotalPayment() {
+        return 0;
+    }
+
+    public double getTotalRemaining() {
         return 0;
     }
 }

@@ -49,6 +49,14 @@ public class MiniPOS {
         sale.removeProduct("1");
         System.out.println("Remove product 1");
         printReceipt(sale);
+
+        sale.addPayment(50);
+        System.out.println("After paid 50");
+        printReceipt(sale);
+
+        sale.addPayment(49);
+        System.out.println("After paid 49");
+        printReceipt(sale);
     }
 
     private static void printReceipt(Sale sale) {
@@ -63,6 +71,8 @@ public class MiniPOS {
         System.out.println("\t\t\tTotal:\t" +sale.getTotalPrice());
         System.out.println("\t\t\tVAT:\t" +sale.getVAT());
         System.out.println("\t\t     Subtotal:\t" +sale.subTotal());
+        System.out.println("\t\t\tPaid:\t" +sale.getTotalPayment());
+        System.out.println("\t\t    Remaining:\t" +sale.getTotalRemaining());
         System.out.println();
         System.out.println();
     }
