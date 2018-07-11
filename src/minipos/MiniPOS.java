@@ -62,6 +62,7 @@ public class MiniPOS {
         System.out.println("-----------------------------------------------");
         System.out.println("\t\t\tTotal:\t" +sale.getTotalPrice());
         System.out.println("\t\t\tVAT:\t" +sale.getVAT());
+        System.out.println("\t\t     Subtotal:\t" +sale.subTotal());
         System.out.println();
         System.out.println();
     }

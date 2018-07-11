@@ -51,6 +51,10 @@ public class Sale {
     }
 
     public double getVAT() {
+        return getTotalPrice() * 0.1;
+    }
+
+    public double subTotal() {
         return 0;
     }
 }
