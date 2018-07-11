@@ -31,4 +31,8 @@ public class Product {
     public String id() {
         return id;
     }
+
+    public void setPrice(int i) {
+        this.price =i;
+    }
 }

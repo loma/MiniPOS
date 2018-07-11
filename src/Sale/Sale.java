@@ -45,4 +45,8 @@ public class Sale {
         }
         
     }
+
+    public ArrayList<Product> getAllProducts() {
+        return prod;
+    }
 }

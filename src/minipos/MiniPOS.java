@@ -27,47 +27,35 @@ public class MiniPOS {
         System.out.println("Sale");
         Sale sale = new Sale();
         sale.addProduct(p1);
-        double totalPrice = sale.getTotalPrice(); // 10
-        System.out.println("After add 1: "+ totalPrice);
+        System.out.println("Add product 1");
+        printReceipt(sale);
 
         sale.addProduct(p2);
-        totalPrice = sale.getTotalPrice(); // 40
-        System.out.println("After add 2: " + totalPrice);
+        System.out.println("Add product 1");
+        printReceipt(sale);
 
-        System.out.println("Find product with id 1");
         Product p = sale.findProduct("1");
-        if (p != null) {
-            System.out.println("name:" +p.name());
-            System.out.println("price:" +p.price());
-        }
+        p.setPrice(9);
+        System.out.println("Update product 1 price to 9");
+        printReceipt(sale);
 
         sale.removeProduct("1");
-        totalPrice = sale.getTotalPrice();
-        System.out.println("After remove:" + totalPrice);
+        System.out.println("Remove product 1");
+        printReceipt(sale);
+    }
 
+    private static void printReceipt(Sale sale) {
+
+        System.out.println("Name\tQty\tPrice");
+        System.out.println("-----------------------------");
+        for (Product p : sale.getAllProducts())
+            System.out.println(
+                String.format("%s\t%d\t%d", 
+                    p.name(), 1, p.price()));
+        System.out.println("-----------------------------");
+        System.out.println("\tTotal: " +sale.getTotalPrice());
         System.out.println();
-        System.out.println("Stock");
-        Stock stock = new Stock();
-        stock.addProduct(p1);
-        totalPrice = stock.getTotalPrice(); // 10
-        System.out.println(totalPrice);
-        System.out.println("After add 1: "+ totalPrice);
-
-        stock.addProduct(p2);
-        totalPrice = stock.getTotalPrice(); // 40
-        System.out.println(totalPrice);
-        System.out.println("After add 2: "+ totalPrice);
-        
-        p = stock.findProduct("1");
-        if (p != null) {
-            System.out.println("name:" +p.name());
-            System.out.println("price:" +p.price());
-        }
-
-        stock.removeProduct("1");
-        totalPrice = stock.getTotalPrice();
-        System.out.println("After remove:" + totalPrice);
-        
+        System.out.println();
     }
     
 }
