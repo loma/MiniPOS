@@ -75,7 +75,7 @@ public class Sale {
     }
 
     public double getTotalChanges() {
-        return 0;
+        return getTotalPayment() - subTotal();
     }
 
 }
