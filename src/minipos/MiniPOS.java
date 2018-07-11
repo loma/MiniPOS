@@ -26,6 +26,8 @@ public class MiniPOS {
 
         System.out.println("Sale");
         Sale sale = new Sale();
+        System.out.println("new sales");
+        printReceipt(sale);
         sale.addProduct(p1);
         System.out.println("Add product 1");
         printReceipt(sale);
@@ -51,14 +53,14 @@ public class MiniPOS {
 
     private static void printReceipt(Sale sale) {
 
-        System.out.println("Name\tQty\tPrice");
-        System.out.println("-----------------------------");
+        System.out.println("Name\t\tQty\tPrice\tTotal");
+        System.out.println("-----------------------------------------------");
         for (Product p : sale.getAllProducts())
             System.out.println(
-                String.format("%s\t%d\t%d", 
-                    p.name(), 1, p.price()));
-        System.out.println("-----------------------------");
-        System.out.println("\tTotal: " +sale.getTotalPrice());
+                String.format("%s\t\t%d\t%d\t%d", 
+                    p.name(), p.quantity(), p.price(), p.price() * p.quantity()));
+        System.out.println("-----------------------------------------------");
+        System.out.println("\t\t\tTotal: " +sale.getTotalPrice());
         System.out.println();
         System.out.println();
     }

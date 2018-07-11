@@ -13,6 +13,7 @@ public class Product {
     String id;
     String name;
     int price;
+    int quantity = 1;
 
     public Product(String id, String name, int price) {
         this.id = id;
@@ -37,5 +38,10 @@ public class Product {
     }
 
     public void setQuantity(int i) {
+        this.quantity = i;
+    }
+
+    public int quantity() {
+        return quantity;
     }
 }

@@ -23,7 +23,7 @@ public class Sale {
     public double getTotalPrice() {
         int sum=0;
         for(Product p: prod){
-            sum += p.price();
+            sum += p.price() * p.quantity();
         }
         return sum;
     }
