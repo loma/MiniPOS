@@ -60,7 +60,8 @@ public class MiniPOS {
                 String.format("%s\t\t%d\t%d\t%d", 
                     p.name(), p.quantity(), p.price(), p.price() * p.quantity()));
         System.out.println("-----------------------------------------------");
-        System.out.println("\t\t\tTotal: " +sale.getTotalPrice());
+        System.out.println("\t\t\tTotal:\t" +sale.getTotalPrice());
+        System.out.println("\t\t\tVAT:\t" +sale.getVAT());
         System.out.println();
         System.out.println();
     }

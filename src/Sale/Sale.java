@@ -49,4 +49,8 @@ public class Sale {
     public ArrayList<Product> getAllProducts() {
         return prod;
     }
+
+    public double getVAT() {
+        return 0;
+    }
 }
