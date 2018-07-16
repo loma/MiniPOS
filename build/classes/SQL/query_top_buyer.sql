@@ -17,5 +17,15 @@ inner join orders on
 group by orders.customerid
 order by total_buy desc
 
+--ilamkeo
+SELECT p.productid,p.productname, count(1) countSell,sum(od.quantity) sumQty FROM Products p
+inner join OrderDetails od on p.ProductID=od.ProductID
+inner join Orders o on o.OrderID=od.OrderID
+
+where o.OrderDate between '1997-01-01' and '1997-01-31'
+
+group by p.productid
+order by countSell desc
+
 
         

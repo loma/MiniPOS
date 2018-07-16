@@ -64,11 +64,11 @@ public class MiniPOS {
             // Load the MySQL JDBC driver
             String driverName = "com.mysql.jdbc.Driver";
             // Create a connection to the database
-            String serverName = "localhost";
-            String schema = "pos";
+            String serverName = "192.168.0.99";
+            String schema = "MiniPOS?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
             String url = "jdbc:mysql://" + serverName +  "/" + schema;
-            String username = "root";
-            String password = "asdf123457";
+            String username = "mini";
+            String password = "mini";
             connection = DriverManager.getConnection(url, username, password);
             System.out.println("Successfully Connected to the database!");
             return connection;
