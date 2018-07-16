@@ -34,6 +34,8 @@ public class MiniPOS {
             System.out.println("1. Add product");
             System.out.println("2. Print receipt");
             System.out.println("3. Show all products");
+            System.out.println("4. Create new product");
+            System.out.println("5. Remove product");
             System.out.println("0. Exit");
 
             System.out.print("Option: ");
@@ -51,6 +53,30 @@ public class MiniPOS {
                 case "3":
                     showAllproducts(connection);
                     break;
+                case "4":
+                    System.out.print("id: ");
+                    id = scanner.nextLine();
+
+                    System.out.print("name: ");
+                    String name = scanner.nextLine();
+
+                    System.out.print("price: ");
+                    double price = scanner.nextDouble();
+
+                    Product p = new Product(id, name, price);
+                    p.save(connection);
+
+                    break;
+
+                case "5":
+                    System.out.print("id: ");
+                    id = scanner.nextLine();
+
+                    p = Product.find(connection, id);
+                    p.delete(connection);
+
+                    break;
+
                 case "0":
                     return;
             }
@@ -109,12 +135,13 @@ public class MiniPOS {
         try (Statement stmt = connection.createStatement()) {
 
             ResultSet rs = stmt.executeQuery(query);
-            System.out.println("id\tname");
-            System.out.println("----------------------");
+            System.out.println("id\tname\t\tprice");
+            System.out.println("---------------------------------");
             while (rs.next()) {
                 String name = rs.getString("name");
-                int id = rs.getInt("id");
-                System.out.println(String.format("%d\t%s", id, name));
+                String id = rs.getString("id");
+                double price = rs.getDouble("price");
+                System.out.println(String.format("%s\t%s\t\t%.2f", id, name, price));
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
