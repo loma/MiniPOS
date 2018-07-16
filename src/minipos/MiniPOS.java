@@ -8,6 +8,12 @@ package minipos;
 import Sale.Sale;
 import Stock.Product;
 import Stock.Stock;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.Scanner;
 
 /**
  *
@@ -20,47 +26,56 @@ public class MiniPOS {
      */
     public static void main(String[] args) {
 
-        Product p1 = new Product("1", "name1", 10);
-        Product p2 = new Product("2", "name2", 30);
-        Product p3 = new Product("3", "name3", 20);
+        Connection connection = tryGetConnection();
 
-        System.out.println("Sale");
+        Scanner scanner = new Scanner(System. in); 
         Sale sale = new Sale();
-        System.out.println("new sales");
-        printReceipt(sale);
-        sale.addProduct(p1);
-        System.out.println("Add product 1");
-        printReceipt(sale);
+        while(true){
+            System.out.println("1. Add product");
+            System.out.println("2. Print receipt");
+            System.out.println("3. Show all products");
+            System.out.println("0. Exit");
 
-        sale.addProduct(p2);
-        System.out.println("Add product 2");
-        printReceipt(sale);
+            System.out.print("Option: ");
+            String option = scanner.nextLine();
 
-        Product p = sale.findProduct("1");
-        p.setPrice(9);
-        System.out.println("Update product 1 price to 9");
-        printReceipt(sale);
+            switch(option){
+                case "1":
+                    System.out.print("Product Id: ");
+                    String id = scanner.nextLine();
+                    sale.addProduct(new Product(id, "Product #"+id, Integer.parseInt(id)*10));
+                    break;
+                case "2":
+                    printReceipt(sale);
+                    break;
+                case "3":
+                    showAllproducts(connection);
+                    break;
+                case "0":
+                    return;
+            }
+            System.out.println();
+        }
+    }
 
-        p = sale.findProduct("2");
-        p.setQuantity(3);
-        System.out.println("Update product 2 qty to 3");
-        printReceipt(sale);
-
-        sale.removeProduct("1");
-        System.out.println("Remove product 1");
-        printReceipt(sale);
-
-        sale.setDiscount(0.05);
-        System.out.println("After add discount 5%");
-        printReceipt(sale);
-
-        sale.addPayment(50);
-        System.out.println("After paid 50");
-        printReceipt(sale);
-
-        sale.addPayment(100);
-        System.out.println("After paid 100");
-        printReceipt(sale);
+    private static Connection tryGetConnection() {
+        Connection connection = null;
+        try {
+            // Load the MySQL JDBC driver
+            String driverName = "com.mysql.jdbc.Driver";
+            // Create a connection to the database
+            String serverName = "localhost";
+            String schema = "pos";
+            String url = "jdbc:mysql://" + serverName +  "/" + schema;
+            String username = "root";
+            String password = "asdf123457";
+            connection = DriverManager.getConnection(url, username, password);
+            System.out.println("Successfully Connected to the database!");
+            return connection;
+        } catch (SQLException e) {
+            System.out.println("Could not connect to the database " + e.getMessage());
+        }
+        return null;
     }
 
     private static void printReceipt(Sale sale) {
@@ -87,6 +102,33 @@ public class MiniPOS {
 
         System.out.println();
         System.out.println();
+    }
+
+    private static void showAllproducts(Connection connection) {
+        String query = "select * from products;";
+        try (Statement stmt = connection.createStatement()) {
+
+            ResultSet rs = stmt.executeQuery(query);
+            System.out.println("id\tname");
+            System.out.println("----------------------");
+            while (rs.next()) {
+                String name = rs.getString("name");
+                int id = rs.getInt("id");
+                System.out.println(String.format("%d\t%s", id, name));
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+    private static void insertProduct(Connection connection) {
+        String query = "insert into products values(2,'Apple');";
+        try (Statement stmt = connection.createStatement()) {
+
+            int result = stmt.executeUpdate(query);
+            System.out.println(result);
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
     }
     
 }
