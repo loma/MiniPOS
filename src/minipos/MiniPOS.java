@@ -5,6 +5,7 @@
  */
 package minipos;
 
+import Config.MiniPOSConfig;
 import Sale.Sale;
 import Stock.Product;
 import Stock.Stock;
@@ -91,7 +92,7 @@ public class MiniPOS {
             String driverName = "com.mysql.jdbc.Driver";
             // Create a connection to the database
             String serverName = "192.168.0.99";
-            String schema = "MiniPOS?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
+            String schema = MiniPOSConfig.DB_NAME +"?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
             String url = "jdbc:mysql://" + serverName +  "/" + schema;
             String username = "mini";
             String password = "mini";
