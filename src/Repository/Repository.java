@@ -1,0 +1,66 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package Repository;
+
+import Config.MiniPOSConfig;
+import Stock.Product;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+/**
+ *
+ * @author loma
+ */
+public class Repository {
+
+    static Connection connection;
+    public Repository(){
+        if (connection == null)
+            connection = getConnection();
+    }
+
+    public void insertNewProduct(Product product) {
+        String query = String.format(
+            "insert into products values('%s', '%s', %f);", 
+            product.id(), 
+            product.name(), 
+            product.price()
+        );
+        executeUpdate(query);
+        
+    }
+
+    public void executeUpdate(String query) {
+        try (Statement stmt = connection.createStatement()) {
+            int result = stmt.executeUpdate(query);
+            System.out.println(result);
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public Connection getConnection() {
+        Connection connection = null;
+        try {
+            // Load the MySQL JDBC driver
+            String driverName = "com.mysql.jdbc.Driver";
+            // Create a connection to the database
+            String serverName = "192.168.0.99";
+            String schema = MiniPOSConfig.DB_NAME +"?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
+            String url = "jdbc:mysql://" + serverName +  "/" + schema;
+            String username = "mini";
+            String password = "mini";
+            connection = DriverManager.getConnection(url, username, password);
+            System.out.println("Successfully Connected to the database!");
+            return connection;
+        } catch (SQLException e) {
+            System.out.println("Could not connect to the database " + e.getMessage());
+        }
+        return null;
+    }
+}

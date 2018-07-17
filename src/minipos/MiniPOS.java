@@ -6,6 +6,7 @@
 package minipos;
 
 import Config.MiniPOSConfig;
+import Repository.Repository;
 import Sale.Sale;
 import Stock.Product;
 import Stock.Stock;
@@ -27,7 +28,7 @@ public class MiniPOS {
      */
     public static void main(String[] args) {
 
-        Connection connection = tryGetConnection();
+        Connection connection = new Repository().getConnection();
 
         Scanner scanner = new Scanner(System. in); 
         Sale sale = new Sale();
@@ -66,7 +67,7 @@ public class MiniPOS {
                     double price = scanner.nextDouble();
 
                     Product p = new Product(id, name, price);
-                    p.save(connection);
+                    p.save();
 
                     break;
 
@@ -75,7 +76,7 @@ public class MiniPOS {
                     id = scanner.nextLine();
 
                     p = Product.find(connection, id);
-                    p.delete(connection);
+                    p.delete();
 
                     break;
 
@@ -93,7 +94,7 @@ public class MiniPOS {
                     price = scanner.nextDouble();
                     if (price != 0) p.setPrice(price);
 
-                    p.update(connection);
+                    p.update();
 
                     break;
 
@@ -104,25 +105,6 @@ public class MiniPOS {
         }
     }
 
-    private static Connection tryGetConnection() {
-        Connection connection = null;
-        try {
-            // Load the MySQL JDBC driver
-            String driverName = "com.mysql.jdbc.Driver";
-            // Create a connection to the database
-            String serverName = "192.168.0.99";
-            String schema = MiniPOSConfig.DB_NAME +"?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
-            String url = "jdbc:mysql://" + serverName +  "/" + schema;
-            String username = "mini";
-            String password = "mini";
-            connection = DriverManager.getConnection(url, username, password);
-            System.out.println("Successfully Connected to the database!");
-            return connection;
-        } catch (SQLException e) {
-            System.out.println("Could not connect to the database " + e.getMessage());
-        }
-        return null;
-    }
 
     private static void printReceipt(Sale sale) {
 
