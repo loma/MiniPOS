@@ -55,7 +55,7 @@ public class Product {
         return id;
     }
 
-    public void setPrice(int i) {
+    public void setPrice(double i) {
         this.price =i;
     }
 
@@ -79,6 +79,20 @@ public class Product {
 
     public void delete(Connection connection) {
         String query = String.format("delete from products where id='%s'", id);
+        try (Statement stmt = connection.createStatement()) {
+            int result = stmt.executeUpdate(query);
+            System.out.println(result);
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void update(Connection connection) {
+        String query = String.format("update products set name='%s', price=%f where id='%s';", name, price, id);
         try (Statement stmt = connection.createStatement()) {
             int result = stmt.executeUpdate(query);
             System.out.println(result);

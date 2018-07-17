@@ -37,6 +37,7 @@ public class MiniPOS {
             System.out.println("3. Show all products");
             System.out.println("4. Create new product");
             System.out.println("5. Remove product");
+            System.out.println("6. Update product");
             System.out.println("0. Exit");
 
             System.out.print("Option: ");
@@ -75,6 +76,24 @@ public class MiniPOS {
 
                     p = Product.find(connection, id);
                     p.delete(connection);
+
+                    break;
+
+                case "6":
+                    System.out.print("id: ");
+                    id = scanner.nextLine();
+                    p = Product.find(connection, id);
+
+
+                    System.out.print("name ("+p.name()+"): ");
+                    name = scanner.nextLine();
+                    if (!name.equals("")) p.setName(name);
+
+                    System.out.print("price ("+p.price()+"): ");
+                    price = scanner.nextDouble();
+                    if (price != 0) p.setPrice(price);
+
+                    p.update(connection);
 
                     break;
 
