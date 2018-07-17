@@ -5,13 +5,10 @@
  */
 package minipos;
 
-import Config.MiniPOSConfig;
 import Repository.Repository;
 import Sale.Sale;
 import Stock.Product;
-import Stock.Stock;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -28,7 +25,6 @@ public class MiniPOS {
      */
     public static void main(String[] args) {
 
-        Connection connection = new Repository().getConnection();
 
         Scanner scanner = new Scanner(System. in); 
         Sale sale = new Sale();
@@ -51,10 +47,10 @@ public class MiniPOS {
                     sale.addProduct(new Product(id, "Product #"+id, Integer.parseInt(id)*10));
                     break;
                 case "2":
-                    printReceipt(sale);
+                    sale.printReceipt();
                     break;
                 case "3":
-                    showAllproducts(connection);
+                    showAllproducts();
                     break;
                 case "4":
                     System.out.print("id: ");
@@ -75,7 +71,7 @@ public class MiniPOS {
                     System.out.print("id: ");
                     id = scanner.nextLine();
 
-                    p = Product.find(connection, id);
+                    p = Product.find(id);
                     p.delete();
 
                     break;
@@ -83,7 +79,7 @@ public class MiniPOS {
                 case "6":
                     System.out.print("id: ");
                     id = scanner.nextLine();
-                    p = Product.find(connection, id);
+                    p = Product.find(id);
 
 
                     System.out.print("name ("+p.name()+"): ");
@@ -106,33 +102,8 @@ public class MiniPOS {
     }
 
 
-    private static void printReceipt(Sale sale) {
-
-        System.out.println("Name\t\tQty\tPrice\tTotal");
-        System.out.println("-----------------------------------------------");
-        for (Product p : sale.getAllProducts())
-            System.out.println(
-                String.format("%s\t\t%d\t%d\t%d", 
-                    p.name(), p.quantity(), p.price(), p.price() * p.quantity()));
-        System.out.println("-----------------------------------------------");
-        System.out.println("\t\t\tTotal:\t" +sale.getTotalPrice());
-        System.out.println("\t\t     Discount:\t" +sale.getTotalDiscount());
-        System.out.println("\t\t     --------------------------");
-        System.out.println(String.format("\t\t\t  VAT:\t%.2f", sale.getVAT()));
-        System.out.println("\t\t     Subtotal:\t" +sale.subTotal());
-        System.out.println("\t\t     --------------------------");
-        System.out.println("\t\t\t Paid:\t" +sale.getTotalPayment());
-        if (sale.getTotalRemaining() >0)
-            System.out.println("\t\t    Remaining:\t" +sale.getTotalRemaining());
-
-        if (sale.getTotalChanges() >= 0)
-            System.out.println("\t\t      Changes:\t" +sale.getTotalChanges());
-
-        System.out.println();
-        System.out.println();
-    }
-
-    private static void showAllproducts(Connection connection) {
+    private static void showAllproducts() {
+        Connection connection = new Repository().getConnection();
         String query = "select * from products;";
         try (Statement stmt = connection.createStatement()) {
 

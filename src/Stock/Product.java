@@ -71,20 +71,7 @@ public class Product {
         String query = String.format("update products set name='%s', price=%f where id='%s';", name, price, id);
         repo.executeUpdate(query);
     }
-    public static Product find(Connection connection, String id) {
-        String query = String.format("select * from products where id='%s';", id);
-        try (Statement stmt = connection.createStatement()) {
-
-            ResultSet rs = stmt.executeQuery(query);
-            while (rs.next()) {
-                String name = rs.getString("name");
-                String productId = rs.getString("id");
-                double price = rs.getDouble("price");
-                return new Product(id, name, price);
-            }
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-        return null;
+    public static Product find(String id) {
+        return Repository.findProduct(id);
     }
 }

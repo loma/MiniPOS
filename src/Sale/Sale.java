@@ -87,4 +87,30 @@ public class Sale {
         return getTotalPrice()*discount;
     }
 
+    public void printReceipt() {
+
+        System.out.println("Name\t\tQty\tPrice\tTotal");
+        System.out.println("-----------------------------------------------");
+        for (Product p : getAllProducts())
+            System.out.println(
+                String.format("%s\t\t%d\t%f\t%f", 
+                    p.name(), p.quantity(), p.price(), p.price() * p.quantity()));
+        System.out.println("-----------------------------------------------");
+        System.out.println("\t\t\tTotal:\t" +getTotalPrice());
+        System.out.println("\t\t     Discount:\t" +getTotalDiscount());
+        System.out.println("\t\t     --------------------------");
+        System.out.println(String.format("\t\t\t  VAT:\t%.2f", getVAT()));
+        System.out.println("\t\t     Subtotal:\t" +subTotal());
+        System.out.println("\t\t     --------------------------");
+        System.out.println("\t\t\t Paid:\t" +getTotalPayment());
+        if (getTotalRemaining() >0)
+            System.out.println("\t\t    Remaining:\t" +getTotalRemaining());
+
+        if (getTotalChanges() >= 0)
+            System.out.println("\t\t      Changes:\t" +getTotalChanges());
+
+        System.out.println();
+        System.out.println();
+    }
+
 }

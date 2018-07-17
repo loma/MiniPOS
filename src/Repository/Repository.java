@@ -9,6 +9,7 @@ import Config.MiniPOSConfig;
 import Stock.Product;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -20,8 +21,7 @@ public class Repository {
 
     static Connection connection;
     public Repository(){
-        if (connection == null)
-            connection = getConnection();
+        getConnection();
     }
 
     public void insertNewProduct(Product product) {
@@ -45,6 +45,8 @@ public class Repository {
     }
 
     public Connection getConnection() {
+        if (connection != null) return connection;
+
         Connection connection = null;
         try {
             // Load the MySQL JDBC driver
@@ -57,9 +59,28 @@ public class Repository {
             String password = "mini";
             connection = DriverManager.getConnection(url, username, password);
             System.out.println("Successfully Connected to the database!");
+            this.connection = connection;
             return connection;
         } catch (SQLException e) {
             System.out.println("Could not connect to the database " + e.getMessage());
+        }
+        return null;
+    }
+
+    public static Product findProduct(String id) {
+        String query = String.format("select * from products where id='%s';", id);
+        
+        try (Statement stmt = connection.createStatement()) {
+
+            ResultSet rs = stmt.executeQuery(query);
+            while (rs.next()) {
+                String name = rs.getString("name");
+                String productId = rs.getString("id");
+                double price = rs.getDouble("price");
+                return new Product(id, name, price);
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
         }
         return null;
     }
