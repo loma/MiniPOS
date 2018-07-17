@@ -20,6 +20,16 @@ import java.sql.Statement;
 public class Repository {
 
     static Connection connection;
+
+    public static void updateProduct(Product product) {
+        String query = String.format(
+            "update products set name='%s', price=%f where id ='%s';", 
+            product.name(), 
+            product.price(),
+            product.id()
+        );
+        executeUpdate(query);
+    }
     public Repository(){
         getConnection();
     }
@@ -35,7 +45,7 @@ public class Repository {
         
     }
 
-    public void executeUpdate(String query) {
+    public static void executeUpdate(String query) {
         try (Statement stmt = connection.createStatement()) {
             int result = stmt.executeUpdate(query);
             System.out.println(result);

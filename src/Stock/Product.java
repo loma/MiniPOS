@@ -68,8 +68,7 @@ public class Product {
     }
 
     public void update() {
-        String query = String.format("update products set name='%s', price=%f where id='%s';", name, price, id);
-        repo.executeUpdate(query);
+        Repository.updateProduct(this);
     }
     public static Product find(String id) {
         return Repository.findProduct(id);
