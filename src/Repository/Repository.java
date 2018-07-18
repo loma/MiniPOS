@@ -30,6 +30,11 @@ public class Repository {
         );
         executeUpdate(query);
     }
+
+    public static void deleteProduct(Product product) {
+        String query = String.format("delete from products where id='%s'", product.id());
+        executeUpdate(query);
+    }
     public Repository(){
         getConnection();
     }

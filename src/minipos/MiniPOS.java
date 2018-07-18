@@ -28,6 +28,15 @@ public class MiniPOS {
 
         Scanner scanner = new Scanner(System. in); 
         Sale sale = new Sale();
+
+        User user = new User();
+        while (!user.isLogin()) {
+            System.out.print("username: ");
+            String username = scanner.nextLine();
+            System.out.print("password: ");
+            String password = scanner.nextLine();
+            user.login(username, password);
+        }
         while(true){
             System.out.println("1. Add product");
             System.out.println("2. Print receipt");

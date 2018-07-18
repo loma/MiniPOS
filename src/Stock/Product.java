@@ -59,8 +59,7 @@ public class Product {
     }
 
     public void delete() {
-        String query = String.format("delete from products where id='%s'", id);
-        repo.executeUpdate(query);
+        Repository.deleteProduct(this);
     }
 
     public void setName(String name) {
