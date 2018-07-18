@@ -5,19 +5,23 @@
  */
 package minipos;
 
+import Repository.Repository;
+
 /**
  *
  * @author loma
  */
 class User {
 
+    Role role;
+    boolean loginStatus = false;
+
     boolean isLogin() {
-        // check if user is login
-        return false;
+        return loginStatus;
     }
 
     void login(String username, String password) {
-        // login logic
+        loginStatus = Repository.checkUsernamePassword(username, password);
     }
     
 }

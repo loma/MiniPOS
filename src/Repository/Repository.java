@@ -7,6 +7,7 @@ package Repository;
 
 import Config.MiniPOSConfig;
 import Stock.Product;
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -35,6 +36,25 @@ public class Repository {
         String query = String.format("delete from products where id='%s'", product.id());
         executeUpdate(query);
     }
+
+    public static boolean checkUsernamePassword(String username, String password) {
+        String query = String.format("call login('%s', '%s');", password, password);
+        
+
+        try {
+            CallableStatement cs = getConnection().prepareCall(
+                "{call login(?, ?)}");
+            cs.setString(1, username);
+            cs.setString(2, password);
+            ResultSet rs = cs.executeQuery(query);
+            rs.last();
+            return rs.getRow() > 0;
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return false;
+    }
+
     public Repository(){
         getConnection();
     }
@@ -59,7 +79,7 @@ public class Repository {
         }
     }
 
-    public Connection getConnection() {
+    public static Connection getConnection() {
         if (connection != null) return connection;
 
         Connection connection = null;
@@ -74,7 +94,7 @@ public class Repository {
             String password = "mini";
             connection = DriverManager.getConnection(url, username, password);
             System.out.println("Successfully Connected to the database!");
-            this.connection = connection;
+            Repository.connection = connection;
             return connection;
         } catch (SQLException e) {
             System.out.println("Could not connect to the database " + e.getMessage());
