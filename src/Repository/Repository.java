@@ -78,8 +78,7 @@ public class Repository {
     }
 
     public static void insertNewUser(User user) {
-        String query;
-        query = String.format(
+        String query = String.format(
             "insert into users (id, username, password, role) "
                 + "values(%d, '%s', '%s', %d);",
             user.getId(),
@@ -110,6 +109,17 @@ public class Repository {
 
     public static void deleteUser(User user) {
         String query = String.format("delete from users where id=%d;", user.getId());
+        executeUpdate(query);
+    }
+
+    public static void updateUser(User user) {
+        String query = String.format(
+            "update users set username='%s', password='%s', role=%d where id=%d;",
+            user.getName(), 
+            user.getPassword(),
+            user.getRole().ordinal(),
+            user.getId()
+        );
         executeUpdate(query);
     }
 

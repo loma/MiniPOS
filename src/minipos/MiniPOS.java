@@ -137,10 +137,27 @@ public class MiniPOS {
                     System.out.print("id: ");
                     userId = scanner.nextInt(); 
                     scanner.nextLine();
-
-                    user = Repository.findUser(userId);
+                    user = User.find(userId);
                     user.delete();
+                    break;
+                case "10":
+                    System.out.print("id: ");
+                    userId = scanner.nextInt(); 
+                    scanner.nextLine();
+                    user = User.find(userId);
 
+                    System.out.print("username: ");
+                    String username = scanner.nextLine(); 
+                    System.out.print("password: ");
+                    password = scanner.nextLine(); 
+                    System.out.print("role: ");
+                    role = scanner.nextInt(); 
+                    scanner.nextLine(); 
+
+                    user.setUsername(username);
+                    user.setPassword(password);
+                    user.setRole(role);
+                    user.update();
                     break;
 
                 case "0":

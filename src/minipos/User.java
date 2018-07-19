@@ -19,6 +19,10 @@ public class User {
         return Repository.getAllUsers();
     }
 
+    static User find(int userId) {
+        return Repository.findUser(userId);
+    }
+
     boolean loginStatus = false;
     private int id;
     private String name;
@@ -38,7 +42,7 @@ public class User {
         this.id = id;
         this.name = name;
         this.password = password;
-        this.role = Role.values()[role];;
+        this.role = Role.values()[role];
     }
 
     public int getId(){
@@ -63,11 +67,27 @@ public class User {
     }
 
     void save() {
-        Repository.insertNewUser(this);
+        Repository.updateUser(this);
     }
 
     void delete() {
         Repository.deleteUser(this);
+    }
+
+    void setUsername(String username) {
+        this.name = username;
+    }
+
+    void setPassword(String password) {
+        this.password = password;
+    }
+
+    void setRole(int role) {
+        this.role = Role.values()[role];
+    }
+
+    void update() {
+        Repository.updateUser(this);
     }
     
 }
