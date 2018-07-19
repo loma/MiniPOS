@@ -23,6 +23,7 @@ public class User {
     private int id;
     private String name;
     Role role;
+    private String password;
 
     public User(int id, String name, int role) {
         this.id=id;
@@ -31,6 +32,13 @@ public class User {
     }
 
     User() {
+    }
+
+    User(int id, String name, String password, int role) {
+        this.id = id;
+        this.name = name;
+        this.password = password;
+        this.role = Role.values()[role];;
     }
 
     public int getId(){
@@ -42,6 +50,9 @@ public class User {
     public Role getRole(){
         return this.role;
     }
+    public String getPassword(){
+        return this.password;
+    }
 
     boolean isLogin() {
         return loginStatus;
@@ -49,6 +60,10 @@ public class User {
 
     void login(String username, String password) {
         loginStatus = Repository.checkUsernamePassword(username, password);
+    }
+
+    void save() {
+        Repository.save(this);
     }
     
 }

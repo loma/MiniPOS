@@ -41,15 +41,12 @@ public class Repository {
     }
 
     public static boolean checkUsernamePassword(String username, String password) {
-        String query = String.format("call login('%s', '%s');", password, password);
-        
-
         try {
             CallableStatement cs = getConnection().prepareCall(
                 "{call login(?, ?)}");
             cs.setString(1, username);
             cs.setString(2, password);
-            ResultSet rs = cs.executeQuery(query);
+            ResultSet rs = cs.executeQuery();
             rs.last();
             return rs.getRow() > 0;
         } catch (SQLException e) {
@@ -78,6 +75,19 @@ public class Repository {
 
         
         return new ArrayList<User>();
+    }
+
+    public static void save(User user) {
+        String query;
+        query = String.format(
+            "insert into users (id, username, password, role) "
+                + "values(%d, '%s', '%s', %d);",
+            user.getId(),
+            user.getName(), 
+            user.getPassword(),
+            user.getRole().ordinal()
+        );
+        executeUpdate(query);
     }
 
     public Repository(){

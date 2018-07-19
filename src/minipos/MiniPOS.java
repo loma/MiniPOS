@@ -114,6 +114,21 @@ public class MiniPOS {
                     List<User> users = User.all();
                     showAllUsers(users);
                     break;
+                case "8":
+                    System.out.print("id: ");
+                    int idInt = scanner.nextInt();
+                    name = scanner.nextLine();
+                    System.out.print("name: ");
+                    name = scanner.nextLine();
+                    System.out.print("password: ");
+                    String password = scanner.nextLine();
+                    System.out.print("role: ");
+                    int role = scanner.nextInt();
+
+                    User u = new User(idInt, name, password, role);
+                    u.save();
+
+                    break;
 
                 case "0":
                     return;
