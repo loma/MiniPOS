@@ -13,6 +13,9 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+import minipos.User;
 
 /**
  *
@@ -53,6 +56,28 @@ public class Repository {
             System.out.println(e.getMessage());
         }
         return false;
+    }
+
+    public static List<User> getAllUsers() {
+
+        String query = String.format("select id, username, role from users;");
+        
+        try (Statement stmt = connection.createStatement()) {
+            ResultSet rs = stmt.executeQuery(query);
+            List<User> users = new ArrayList<User>(); 
+            while (rs.next()) {
+                String name = rs.getString("username");
+                int id = rs.getInt("id");
+                int role = rs.getInt("role");
+                users.add(new User(id, name, role));
+            }
+            return users;
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+        
+        return new ArrayList<User>();
     }
 
     public Repository(){

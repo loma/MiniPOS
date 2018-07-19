@@ -6,15 +6,42 @@
 package minipos;
 
 import Repository.Repository;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
  * @author loma
  */
-class User {
+public class User {
 
-    Role role;
+    static List<User> all() {
+        return Repository.getAllUsers();
+    }
+
     boolean loginStatus = false;
+    private int id;
+    private String name;
+    Role role;
+
+    public User(int id, String name, int role) {
+        this.id=id;
+        this.name=name;
+        this.role = Role.values()[role];
+    }
+
+    User() {
+    }
+
+    public int getId(){
+        return this.id;
+    }
+    public String getName(){
+        return this.name;
+    }
+    public Role getRole(){
+        return this.role;
+    }
 
     boolean isLogin() {
         return loginStatus;

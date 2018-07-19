@@ -10,6 +10,7 @@ package minipos;
  * @author loma
  */
 public enum Role {
+    Unknown,
     Admin,
     Manager,
     User;

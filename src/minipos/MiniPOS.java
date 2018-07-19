@@ -12,6 +12,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -109,6 +110,11 @@ public class MiniPOS {
 
                     break;
 
+                case "7":
+                    List<User> users = User.all();
+                    showAllUsers(users);
+                    break;
+
                 case "0":
                     return;
             }
@@ -143,6 +149,18 @@ public class MiniPOS {
             System.out.println(result);
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+        }
+    }
+
+    private static void showAllUsers(List<User> users) {
+        if (users.isEmpty()) {
+            System.out.println("Empty users.");
+            return;
+        }
+        System.out.println("id\tname\t\trole");
+        System.out.println("---------------------------------");
+        for (User u : users){
+            System.out.println(String.format("%d\t%s\t\t%s", u.getId(), u.getName(), u.getRole()));
         }
     }
     
