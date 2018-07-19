@@ -40,10 +40,16 @@ public class MiniPOS {
         while(true){
             System.out.println("1. Add product");
             System.out.println("2. Print receipt");
+            System.out.println("===== PRODUCT =====");
             System.out.println("3. Show all products");
             System.out.println("4. Create new product");
             System.out.println("5. Remove product");
             System.out.println("6. Update product");
+            System.out.println("===== USER =====");
+            System.out.println("7. Show all users");
+            System.out.println("8. Create new user");
+            System.out.println("9. Remove user");
+            System.out.println("10. Update user");
             System.out.println("0. Exit");
 
             System.out.print("Option: ");
