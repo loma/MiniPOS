@@ -63,7 +63,11 @@ public class User {
     }
 
     void save() {
-        Repository.save(this);
+        Repository.insertNewUser(this);
+    }
+
+    void delete() {
+        Repository.deleteUser(this);
     }
     
 }

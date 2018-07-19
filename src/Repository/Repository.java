@@ -77,7 +77,7 @@ public class Repository {
         return new ArrayList<User>();
     }
 
-    public static void save(User user) {
+    public static void insertNewUser(User user) {
         String query;
         query = String.format(
             "insert into users (id, username, password, role) "
@@ -87,6 +87,29 @@ public class Repository {
             user.getPassword(),
             user.getRole().ordinal()
         );
+        executeUpdate(query);
+    }
+
+    public static User findUser(int id) {
+        String query = String.format("select * from users where id=%d;", id);
+        
+        try (Statement stmt = connection.createStatement()) {
+
+            ResultSet rs = stmt.executeQuery(query);
+            while (rs.next()) {
+                String name = rs.getString("username");
+                int userId = rs.getInt("id");
+                int role = rs.getInt("role");
+                return new User(userId, name, role);
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
+    }
+
+    public static void deleteUser(User user) {
+        String query = String.format("delete from users where id=%d;", user.getId());
         executeUpdate(query);
     }
 
@@ -108,7 +131,7 @@ public class Repository {
     public static void executeUpdate(String query) {
         try (Statement stmt = connection.createStatement()) {
             int result = stmt.executeUpdate(query);
-            System.out.println(result);
+            System.out.println(result + " records updates!");
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
