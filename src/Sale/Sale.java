@@ -122,4 +122,14 @@ public class Sale {
         System.out.println();
     }
 
+    public void save() {
+        // insert to sales table
+        // sale id
+        int sale_id =0;
+
+        for(Product p: prod){
+            p.save(sale_id);
+        }
+        
+    }
 }

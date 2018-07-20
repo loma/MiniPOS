@@ -39,9 +39,10 @@ public class MiniPOS {
             user.login(username, password);
         }
         while(true){
-            System.out.println("01. Add product");
+            System.out.println("01. Add product to sale");
             System.out.println("02. Print receipt");
             System.out.println("03. Remove product from sale");
+            System.out.println("04. Save sale");
             System.out.println("===== PRODUCT =====");
             System.out.println("3. Show all products");
             System.out.println("4. Create new product");
@@ -76,6 +77,8 @@ public class MiniPOS {
                     newProduct = Product.find(id);
                     sale.removeProduct(newProduct);
 
+                case "04":
+                    sale.save();
                     break;
                 case "3":
                     showAllproducts();

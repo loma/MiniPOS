@@ -76,4 +76,9 @@ public class Product {
     public void decreaseQuantity(int i) {
         this.quantity -= i;
     }
+
+    public void save(int sale_id) {
+        // insert to sale_detail
+        
+    }
 }
