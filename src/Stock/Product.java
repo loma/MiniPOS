@@ -6,10 +6,6 @@
 package Stock;
 
 import Repository.Repository;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 
 /**
  *
@@ -75,5 +71,9 @@ public class Product {
 
     public void increaseQuantity(int i) {
         this.quantity += i;
+    }
+
+    public void decreaseQuantity(int i) {
+        this.quantity -= i;
     }
 }

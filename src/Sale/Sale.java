@@ -43,14 +43,18 @@ public class Sale {
         }
         return null;        
     }
-    public void removeProduct(String string) {
-
+    public void removeProduct(Product removeProduct) {
+        Product matchedProduct = null;
         for(Product p: prod){
-            if(p.id().equals(string))
-                prod.remove(p);
-                
+            if(p.id().equals(p.id())) {
+                matchedProduct = p;
+                matchedProduct.decreaseQuantity(1);
+            }
         }
-        
+
+        if (matchedProduct != null &&
+            matchedProduct.quantity() == 0)
+            prod.remove(matchedProduct);
     }
 
     public ArrayList<Product> getAllProducts() {

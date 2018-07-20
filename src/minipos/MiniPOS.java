@@ -39,8 +39,9 @@ public class MiniPOS {
             user.login(username, password);
         }
         while(true){
-            System.out.println("1. Add product");
-            System.out.println("2. Print receipt");
+            System.out.println("01. Add product");
+            System.out.println("02. Print receipt");
+            System.out.println("03. Remove product from sale");
             System.out.println("===== PRODUCT =====");
             System.out.println("3. Show all products");
             System.out.println("4. Create new product");
@@ -57,7 +58,7 @@ public class MiniPOS {
             String option = scanner.nextLine();
 
             switch(option){
-                case "1":
+                case "01":
                     System.out.print("Product Id: ");
                     String id = scanner.nextLine();
 
@@ -65,8 +66,16 @@ public class MiniPOS {
                     sale.addProduct(newProduct);
 
                     break;
-                case "2":
+                case "02":
                     sale.printReceipt();
+                    break;
+                case "03":
+                    System.out.print("Product Id: ");
+                    id = scanner.nextLine();
+
+                    newProduct = Product.find(id);
+                    sale.removeProduct(newProduct);
+
                     break;
                 case "3":
                     showAllproducts();
