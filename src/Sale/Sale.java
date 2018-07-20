@@ -14,6 +14,7 @@ import java.util.ArrayList;
  * @author Keo
  */
 public class Sale {
+
     String name;
     int id,price;
     ArrayList<Product> prod   = new ArrayList<Product>();
@@ -152,5 +153,9 @@ public class Sale {
                 }
         }
         
+    }
+
+    public static Sale find(int id) {
+        return new Sale();
     }
 }
