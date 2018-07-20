@@ -126,11 +126,12 @@ public class Repository {
 
     public static int insertNewSale(Sale sale) {
         String query = String.format(
-            "insert into sales (total, discount, paid) "
-                + "values(%f, %f, %f);", 
+            "insert into sales (total, discount, paid, vat) "
+                + "values(%f, %f, %f, %f);", 
             sale.getTotalPrice(), 
             sale.getTotalDiscount(), 
-            sale.getTotalPayment()
+            sale.getTotalPayment(),
+            sale.VAT()
         );
         return executeUpdateWithLastId(query);
     }

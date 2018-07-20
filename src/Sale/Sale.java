@@ -19,9 +19,16 @@ public class Sale {
     ArrayList<Product> prod   = new ArrayList<Product>();
     ArrayList<Integer> payment   = new ArrayList<Integer>();
     private double discount;
+    private double VAT = 0;
 
     public int id(){
         return this.id;
+    }
+    public double VAT(){
+        return this.VAT;
+    }
+    public void setVAT(double vat){
+        this.VAT = vat;
     }
     public void addProduct(Product p1) {
         for (Product p : prod) 
@@ -67,7 +74,7 @@ public class Sale {
     }
 
     public double getVAT() {
-        return (getTotalPrice()*(1-discount)) * 0.1;
+        return (getTotalPrice()*(1-discount)) * this.VAT;
     }
 
     public double subTotal() {
@@ -113,7 +120,7 @@ public class Sale {
         System.out.println("\t\t\t\tTotal:\t" +getTotalPrice());
         System.out.println("\t\t\t     Discount:\t" +getTotalDiscount());
         System.out.println("\t\t\t     --------------------------");
-        System.out.println(String.format("\t\t\t  VAT:\t%.2f", getVAT()));
+        System.out.println(String.format("\t\t\t\t  VAT:\t%.2f", getVAT()));
         System.out.println("\t\t\t     Subtotal:\t" +subTotal());
         System.out.println("\t\t\t     --------------------------");
         System.out.println("\t\t\t\t Paid:\t" +getTotalPayment());

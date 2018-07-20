@@ -12,6 +12,7 @@ CREATE TABLE `sales` (
  `total` double NOT NULL,
  `discount` double NOT NULL,
  `paid` double NOT NULL,
+ `vat` double NOT NULL,
  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1
 

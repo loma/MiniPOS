@@ -45,6 +45,7 @@ public class MiniPOS {
             System.out.println("04. Save sale");
             System.out.println("05. Add payment");
             System.out.println("06. Add discount");
+            System.out.println("07. Set VAT");
             System.out.println("===== PRODUCT =====");
             System.out.println("3. Show all products");
             System.out.println("4. Create new product");
@@ -93,6 +94,11 @@ public class MiniPOS {
                     System.out.print("Discount: ");
                     double discountAmount = scanner.nextDouble();
                     sale.setDiscount(discountAmount);
+                    break;
+                case "07":
+                    System.out.print("VAT(%): ");
+                    double vatAmount = scanner.nextDouble();
+                    sale.setVAT(vatAmount);
                     break;
                 case "3":
                     showAllproducts();
