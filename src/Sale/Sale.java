@@ -19,6 +19,11 @@ public class Sale {
     ArrayList<Integer> payment   = new ArrayList<Integer>();
     private double discount;
     public void addProduct(Product p1) {
+        for (Product p : prod) 
+            if (p.id().equals(p1.id())) {
+                p.increaseQuantity(1);
+                return;
+            }
         prod.add(p1);
     }
 
@@ -89,22 +94,22 @@ public class Sale {
 
     public void printReceipt() {
 
-        System.out.println("Name\t\tQty\tPrice\tTotal");
-        System.out.println("-----------------------------------------------");
+        System.out.println("Name\t\tQty\tPrice\t\tTotal");
+        System.out.println("-------------------------------------------------------");
         for (Product p : getAllProducts())
             System.out.println(
-                String.format("%s\t\t%d\t%f\t%f", 
+                String.format("%s\t\t%d\t%.2f\t\t%.2f", 
                     p.name(), p.quantity(), p.price(), p.price() * p.quantity()));
-        System.out.println("-----------------------------------------------");
-        System.out.println("\t\t\tTotal:\t" +getTotalPrice());
-        System.out.println("\t\t     Discount:\t" +getTotalDiscount());
-        System.out.println("\t\t     --------------------------");
+        System.out.println("-------------------------------------------------------");
+        System.out.println("\t\t\t\tTotal:\t" +getTotalPrice());
+        System.out.println("\t\t\t     Discount:\t" +getTotalDiscount());
+        System.out.println("\t\t\t     --------------------------");
         System.out.println(String.format("\t\t\t  VAT:\t%.2f", getVAT()));
-        System.out.println("\t\t     Subtotal:\t" +subTotal());
-        System.out.println("\t\t     --------------------------");
-        System.out.println("\t\t\t Paid:\t" +getTotalPayment());
+        System.out.println("\t\t\t     Subtotal:\t" +subTotal());
+        System.out.println("\t\t\t     --------------------------");
+        System.out.println("\t\t\t\t Paid:\t" +getTotalPayment());
         if (getTotalRemaining() >0)
-            System.out.println("\t\t    Remaining:\t" +getTotalRemaining());
+            System.out.println("\t\t\t    Remaining:\t" +getTotalRemaining());
 
         if (getTotalChanges() >= 0)
             System.out.println("\t\t      Changes:\t" +getTotalChanges());

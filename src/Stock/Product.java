@@ -72,4 +72,8 @@ public class Product {
     public static Product find(String id) {
         return Repository.findProduct(id);
     }
+
+    public void increaseQuantity(int i) {
+        this.quantity += i;
+    }
 }
