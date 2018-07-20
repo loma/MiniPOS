@@ -6,6 +6,7 @@
 package Repository;
 
 import Config.MiniPOSConfig;
+import Sale.Sale;
 import Stock.Product;
 import java.sql.CallableStatement;
 import java.sql.Connection;
@@ -119,6 +120,43 @@ public class Repository {
             user.getPassword(),
             user.getRole().ordinal(),
             user.getId()
+        );
+        executeUpdate(query);
+    }
+
+    public static int insertNewSale(Sale sale) {
+        String query = String.format(
+            "insert into sales (total, discount, paid) "
+                + "values(%f, %f, %f);", 
+            sale.getTotalPrice(), 
+            sale.getTotalDiscount(), 
+            sale.getTotalPayment()
+        );
+        return executeUpdateWithLastId(query);
+    }
+
+    private static int executeUpdateWithLastId(String query) {
+        try (Statement stmt = connection.createStatement()) {
+            stmt.executeUpdate(query, Statement.RETURN_GENERATED_KEYS);
+            ResultSet rs = stmt.getGeneratedKeys();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return 0;
+    }
+
+    public static void insertNewSaleDetails(Product product) {
+        String query;
+        query = String.format(
+            "insert into sale_details (sale_id, product_id, quantity, price) "
+                + "values(%d, '%s', %d, %f);",
+            product.saleId(),
+            product.id(), 
+            product.quantity(),
+            product.price()
         );
         executeUpdate(query);
     }

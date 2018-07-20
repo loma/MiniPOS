@@ -18,12 +18,17 @@ public class Product {
     double price;
     int quantity = 1;
     private final Repository repo;
+    private int saleId;
 
     public Product(String id, String name, double price) {
         this.id = id;
         this.name = name;
         this.price = price;
         this.repo = new Repository();
+    }
+
+    public int saleId() {
+        return saleId;
     }
 
     public double price() {
@@ -77,8 +82,8 @@ public class Product {
         this.quantity -= i;
     }
 
-    public void save(int sale_id) {
-        // insert to sale_detail
-        
+    public void save(int saleId) {
+        this.saleId = saleId;
+        Repository.insertNewSaleDetails(this);
     }
 }

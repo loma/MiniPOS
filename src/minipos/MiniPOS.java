@@ -65,7 +65,7 @@ public class MiniPOS {
 
                     Product newProduct = Product.find(id);
                     sale.addProduct(newProduct);
-
+                    sale.printReceipt();
                     break;
                 case "02":
                     sale.printReceipt();
@@ -76,6 +76,7 @@ public class MiniPOS {
 
                     newProduct = Product.find(id);
                     sale.removeProduct(newProduct);
+                    sale.printReceipt();
 
                 case "04":
                     sale.save();

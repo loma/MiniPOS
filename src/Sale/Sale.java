@@ -5,6 +5,7 @@
  */
 package Sale;
 
+import Repository.Repository;
 import Stock.Product;
 import java.util.ArrayList;
 
@@ -123,13 +124,12 @@ public class Sale {
     }
 
     public void save() {
-        // insert to sales table
-        // sale id
-        int sale_id =0;
+        int saleId = Repository.insertNewSale(this);
 
-        for(Product p: prod){
-            p.save(sale_id);
-        }
+        if (saleId > 0)
+            for(Product p: prod){
+                p.save(saleId);
+            }
         
     }
 }
