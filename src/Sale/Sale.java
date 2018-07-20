@@ -19,6 +19,10 @@ public class Sale {
     ArrayList<Product> prod   = new ArrayList<Product>();
     ArrayList<Integer> payment   = new ArrayList<Integer>();
     private double discount;
+
+    public int id(){
+        return this.id;
+    }
     public void addProduct(Product p1) {
         for (Product p : prod) 
             if (p.id().equals(p1.id())) {
@@ -124,12 +128,22 @@ public class Sale {
     }
 
     public void save() {
-        int saleId = Repository.insertNewSale(this);
-
-        if (saleId > 0)
+        if (this.id > 0) {
+            Repository.updateSale(this);
             for(Product p: prod){
-                p.save(saleId);
+                if (p.saleId() > 0)
+                    p.update(this.id);
+                else
+                    p.save(this.id);
             }
+        } else {
+            int saleId = Repository.insertNewSale(this);
+            this.id = saleId;
+            if (saleId > 0)
+                for(Product p: prod){
+                    p.save(saleId);
+                }
+        }
         
     }
 }

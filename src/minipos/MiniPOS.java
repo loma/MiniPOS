@@ -43,6 +43,8 @@ public class MiniPOS {
             System.out.println("02. Print receipt");
             System.out.println("03. Remove product from sale");
             System.out.println("04. Save sale");
+            System.out.println("05. Add payment");
+            System.out.println("06. Add discount");
             System.out.println("===== PRODUCT =====");
             System.out.println("3. Show all products");
             System.out.println("4. Create new product");
@@ -80,6 +82,17 @@ public class MiniPOS {
 
                 case "04":
                     sale.save();
+                    break;
+                case "05":
+                    System.out.print("Payment amount: ");
+                    int paymentAmount = scanner.nextInt();
+                    scanner.nextLine();
+                    sale.addPayment(paymentAmount);
+                    break;
+                case "06":
+                    System.out.print("Discount: ");
+                    double discountAmount = scanner.nextDouble();
+                    sale.setDiscount(discountAmount);
                     break;
                 case "3":
                     showAllproducts();

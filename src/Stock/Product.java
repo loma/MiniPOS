@@ -86,4 +86,9 @@ public class Product {
         this.saleId = saleId;
         Repository.insertNewSaleDetails(this);
     }
+
+    public void update(int saleId) {
+        this.saleId = saleId;
+        Repository.updateSaleDetails(this);
+    }
 }

@@ -149,14 +149,37 @@ public class Repository {
     }
 
     public static void insertNewSaleDetails(Product product) {
-        String query;
-        query = String.format(
+        String query = String.format(
             "insert into sale_details (sale_id, product_id, quantity, price) "
                 + "values(%d, '%s', %d, %f);",
             product.saleId(),
             product.id(), 
             product.quantity(),
             product.price()
+        );
+        executeUpdate(query);
+    }
+
+    public static void updateSale(Sale sale) {
+        String query = String.format(
+            "update sales set total=%f, discount=%f, paid=%f "
+                + " where id=%d;", 
+            sale.getTotalPrice(), 
+            sale.getTotalDiscount(), 
+            sale.getTotalPayment(),
+            sale.id()
+        );
+        executeUpdate(query);
+    }
+
+    public static void updateSaleDetails(Product product) {
+        String query = String.format(
+            "update sale_details set quantity=%d, price=%f "
+                + "where sale_id=%d and product_id='%s'; ",
+            product.quantity(),
+            product.price(),
+            product.saleId(),
+            product.id()
         );
         executeUpdate(query);
     }
