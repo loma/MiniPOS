@@ -60,7 +60,10 @@ public class MiniPOS {
                 case "1":
                     System.out.print("Product Id: ");
                     String id = scanner.nextLine();
-                    sale.addProduct(new Product(id, "Product #"+id, Integer.parseInt(id)*10));
+
+                    Product newProduct = Product.find(id);
+                    sale.addProduct(newProduct);
+
                     break;
                 case "2":
                     sale.printReceipt();
