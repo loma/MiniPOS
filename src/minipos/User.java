@@ -63,6 +63,7 @@ public class User {
     }
 
     void login(String username, String password) {
+        this.setUsername(username);
         loginStatus = Repository.checkUsernamePassword(username, password);
     }
 

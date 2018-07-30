@@ -15,6 +15,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import minipos.User;
 
@@ -125,13 +126,17 @@ public class Repository {
     }
 
     public static int insertNewSale(Sale sale) {
+        sale.toString();
         String query = String.format(
-            "insert into sales (total, discount, paid, vat) "
-                + "values(%f, %f, %f, %f);", 
+            "insert into sales (total, discount, paid, vat, sale_on, sale_by, status) "
+                + "values(%f, %f, %f, %f, '%s', '%s', %d);", 
             sale.getTotalPrice(), 
             sale.getTotalDiscount(), 
             sale.getTotalPayment(),
-            sale.VAT()
+            sale.VAT(),
+            sale.getSaleOnString(),
+            sale.getSaleBy(),
+            sale.getStatus().ordinal()
         );
         return executeUpdateWithLastId(query);
     }
@@ -183,6 +188,50 @@ public class Repository {
             product.id()
         );
         executeUpdate(query);
+    }
+
+    public static Sale findSale(int id) {
+        String query = String.format("select * from sales where id=%d;", id);
+        
+        try (Statement stmt = connection.createStatement()) {
+            ResultSet rs = stmt.executeQuery(query);
+            while (rs.next()) {
+                double payment  = rs.getDouble("paid");
+                double discount  = rs.getDouble("discount");
+                double vat  = rs.getDouble("vat");
+                int status  = rs.getInt("status");
+                Date saleOn  = rs.getDate("sale_on");
+                String saleBy  = rs.getString("sale_by");
+                return new Sale(id, discount, vat, payment, status, saleOn, saleBy);
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
+    }
+
+    public static ArrayList<Product> findProductsBySaleId(int id) {
+        String query = String.format("select * from sale_details where sale_id=%d;", id);
+        
+        try (Statement stmt = connection.createStatement()) {
+
+            ResultSet rs = stmt.executeQuery(query);
+            ArrayList<Product> returnProducts = new ArrayList<Product>();
+            while (rs.next()) {
+                String productId = rs.getString("product_id");
+                int quantity = rs.getInt("quantity");
+                double price = rs.getDouble("price");
+
+                Product product = findProduct(productId);
+                product.setPrice(price);
+                product.setQuantity(quantity);
+                returnProducts.add(product);
+            }
+            return returnProducts;
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
     }
 
     public Repository(){

@@ -7,7 +7,11 @@ package Sale;
 
 import Repository.Repository;
 import Stock.Product;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  *
@@ -16,11 +20,41 @@ import java.util.ArrayList;
 public class Sale {
 
     String name;
-    int id,price;
+    int id;
     ArrayList<Product> prod   = new ArrayList<Product>();
     ArrayList<Integer> payment   = new ArrayList<Integer>();
     private double discount;
     private double VAT = 0;
+    private Date saleOn;
+    private String saleBy = "";
+    private SaleStatus status;
+
+    public Sale() {
+        this.saleOn = new Date();
+    }
+
+    public Sale(int id, double discount, double vat, double payment, int status, Date saleOn, String saleBy) {
+        this.id = id;
+        this.discount = discount;
+        this.VAT = vat;
+        this.payment.add((int)payment);
+        this.status = SaleStatus.values()[status];
+        this.saleOn = saleOn;
+        this.saleBy = saleBy;
+    }
+
+    public String getSaleOnString() {
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        return dateFormat.format(this.saleOn);
+    }
+
+    public String getSaleBy(){
+        return this.saleBy;
+    }
+
+    public SaleStatus getStatus(){
+        return this.status;
+    }
 
     public int id(){
         return this.id;
@@ -32,6 +66,7 @@ public class Sale {
         this.VAT = vat;
     }
     public void addProduct(Product p1) {
+        this.status = SaleStatus.PROGRESS;
         for (Product p : prod) 
             if (p.id().equals(p1.id())) {
                 p.increaseQuantity(1);
@@ -84,6 +119,9 @@ public class Sale {
 
     public void addPayment(int i) {
         payment.add(i);
+
+        if (getTotalRemaining() <= 0)
+            this.status = SaleStatus.PAID;
     }
 
     public double getTotalPayment() {
@@ -111,6 +149,10 @@ public class Sale {
 
     public void printReceipt() {
 
+        System.out.println("Date: \t\t" + getSaleOnString());
+        System.out.println("Sale by: \t" + getSaleBy());
+        System.out.println("Status: \t" + getStatus());
+        System.out.println("Sale Id: \t" + id());
         System.out.println("Name\t\tQty\tPrice\t\tTotal");
         System.out.println("-------------------------------------------------------");
         for (Product p : getAllProducts())
@@ -156,6 +198,22 @@ public class Sale {
     }
 
     public static Sale find(int id) {
-        return new Sale();
+        Sale sale = Repository.findSale(id);
+        ArrayList<Product> products = Repository.findProductsBySaleId(id);
+
+        sale.addProducts(products);
+        return sale;
+    }
+
+    private void addProducts(ArrayList<Product> products) {
+        this.prod = products;
+    }
+
+    public void saleBy(String name) {
+        this.saleBy = name;
+    }
+
+    public void status(SaleStatus saleStatus) {
+        this.status = saleStatus;
     }
 }

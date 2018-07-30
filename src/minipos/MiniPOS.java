@@ -7,6 +7,7 @@ package minipos;
 
 import Repository.Repository;
 import Sale.Sale;
+import Sale.SaleStatus;
 import Stock.Product;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -28,7 +29,6 @@ public class MiniPOS {
 
 
         Scanner scanner = new Scanner(System. in); 
-        Sale sale = new Sale();
 
         User user = new User();
         while ( ! user.isLogin()) {
@@ -38,6 +38,11 @@ public class MiniPOS {
             String password = scanner.nextLine();
             user.login(username, password);
         }
+
+        Sale sale = new Sale();
+        sale.saleBy(user.getName());
+        sale.status(SaleStatus.OPEN);
+
         while(true){
             System.out.println("01. Add product to sale");
             System.out.println("02. Print receipt");
@@ -47,6 +52,7 @@ public class MiniPOS {
             System.out.println("06. Add discount");
             System.out.println("07. Set VAT");
             System.out.println("08. Load sale");
+            System.out.println("09. New sale");
             System.out.println("===== PRODUCT =====");
             System.out.println("3. Show all products");
             System.out.println("4. Create new product");
@@ -107,6 +113,11 @@ public class MiniPOS {
                     scanner.nextLine();
 
                     sale = Sale.find(saleId); 
+                    break;
+                case "09":
+                    sale = new Sale();
+                    sale.saleBy(user.getName());
+                    sale.status(SaleStatus.OPEN);
                     break;
 
                 case "3":
