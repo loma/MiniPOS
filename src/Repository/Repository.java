@@ -225,6 +225,7 @@ public class Repository {
                 Product product = findProduct(productId);
                 product.setPrice(price);
                 product.setQuantity(quantity);
+                product.setSaleId(id);
                 returnProducts.add(product);
             }
             return returnProducts;

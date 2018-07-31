@@ -206,7 +206,18 @@ public class Sale {
     }
 
     private void addProducts(ArrayList<Product> products) {
-        this.prod = products;
+
+        for (Product newProduct : products) {
+            boolean isNewProduct = true;
+            for (Product existingProducts : this.prod) 
+                if (existingProducts.id().equals(newProduct.id())) {
+                    existingProducts.increaseQuantity(1);
+                    isNewProduct = false;
+                }
+            
+            if (isNewProduct)
+                this.prod.add(newProduct);
+        } 
     }
 
     public void saleBy(String name) {

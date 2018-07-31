@@ -44,6 +44,7 @@ public class MiniPOS {
         sale.status(SaleStatus.OPEN);
 
         while(true){
+            System.out.println("===== SALE =====");
             System.out.println("01. Add product to sale");
             System.out.println("02. Print receipt");
             System.out.println("03. Remove product from sale");
@@ -53,6 +54,11 @@ public class MiniPOS {
             System.out.println("07. Set VAT");
             System.out.println("08. Load sale");
             System.out.println("09. New sale");
+            System.out.println("===== STOCK =====");
+            System.out.println("11. Add product to PO");
+            System.out.println("12. Print PO receipt");
+            System.out.println("13. Remove product from PO");
+            System.out.println("14. Save PO");
             System.out.println("===== PRODUCT =====");
             System.out.println("3. Show all products");
             System.out.println("4. Create new product");

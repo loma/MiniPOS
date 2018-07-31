@@ -91,4 +91,8 @@ public class Product {
         this.saleId = saleId;
         Repository.updateSaleDetails(this);
     }
+
+    public void setSaleId(int id) {
+        this.saleId = id;
+    }
 }
