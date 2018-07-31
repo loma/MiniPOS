@@ -83,8 +83,20 @@ public class MiniPOS {
                     sale.addProduct(newProduct);
                     sale.printReceipt();
                     break;
+                case "11":
+                    System.out.print("Product Id: ");
+                    id = scanner.nextLine();
+
+                    newProduct = Product.find(id);
+                    //po.addProduct(newProduct);
+                    //po.printReceipt();
+
+                    break;
                 case "02":
                     sale.printReceipt();
+                    break;
+                case "12":
+                    //po.printReceipt();
                     break;
                 case "03":
                     System.out.print("Product Id: ");
@@ -93,9 +105,20 @@ public class MiniPOS {
                     newProduct = Product.find(id);
                     sale.removeProduct(newProduct);
                     sale.printReceipt();
+                    break;
+                case "13":
+                    System.out.print("Product Id: ");
+                    id = scanner.nextLine();
 
+                    newProduct = Product.find(id);
+                    //po.removeProduct(newProduct);
+                    //po.printReceipt();
+                    break;
                 case "04":
                     sale.save();
+                    break;
+                case "14":
+                    //po.save();
                     break;
                 case "05":
                     System.out.print("Payment amount: ");
