@@ -79,9 +79,8 @@ public class MiniPOS {
                 case "01":
                     System.out.print("Product Id: ");
                     String id = scanner.nextLine();
-
-                    Product newProduct = Product.find(id);
-                    sale.addProduct(newProduct);
+                    SaleProduct saleProduct = SaleProduct.find(id);
+                    sale.addProduct(saleProduct);
                     sale.printReceipt();
                     break;
                 case "11":
@@ -103,16 +102,16 @@ public class MiniPOS {
                     System.out.print("Product Id: ");
                     id = scanner.nextLine();
 
-                    newProduct = Product.find(id);
-                    sale.removeProduct(newProduct);
+                    saleProduct = SaleProduct.find(id);
+                    sale.removeProduct(saleProduct);
                     sale.printReceipt();
                     break;
                 case "13":
                     System.out.print("Product Id: ");
                     id = scanner.nextLine();
 
-                    newProduct = Product.find(id);
-                    po.removeProduct(newProduct);
+                    newPoProduct = POProduct.find(id);
+                    po.removeProduct(newPoProduct);
                     po.printReceipt();
                     break;
                 case "04":

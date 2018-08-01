@@ -12,6 +12,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import minipos.SaleProduct;
 
 /**
  *
@@ -21,7 +22,7 @@ public class Sale {
 
     String name;
     int id;
-    ArrayList<Product> prod   = new ArrayList<Product>();
+    ArrayList<SaleProduct> products   = new ArrayList<SaleProduct>();
     ArrayList<Integer> payment   = new ArrayList<Integer>();
     private double discount;
     private double VAT = 0;
@@ -65,19 +66,19 @@ public class Sale {
     public void setVAT(double vat){
         this.VAT = vat;
     }
-    public void addProduct(Product p1) {
+    public void addProduct(SaleProduct p1) {
         this.status = SaleStatus.PROGRESS;
-        for (Product p : prod) 
+        for (SaleProduct p : products) 
             if (p.id().equals(p1.id())) {
                 p.increaseQuantity(1);
                 return;
             }
-        prod.add(p1);
+        products.add(p1);
     }
 
     public double getTotalPrice() {
         int sum=0;
-        for(Product p: prod){
+        for(Product p: products){
             sum += p.price() * p.quantity();
         }
         return sum;
@@ -85,7 +86,7 @@ public class Sale {
 
     public Product findProduct(String id) {
         
-        for(Product p: prod){
+        for(Product p: products){
             if(p.id().equals(id))
                 return p;
         }
@@ -93,7 +94,7 @@ public class Sale {
     }
     public void removeProduct(Product removeProduct) {
         Product matchedProduct = null;
-        for(Product p: prod){
+        for(Product p: products){
             if(p.id().equals(p.id())) {
                 matchedProduct = p;
                 matchedProduct.decreaseQuantity(1);
@@ -102,11 +103,11 @@ public class Sale {
 
         if (matchedProduct != null &&
             matchedProduct.quantity() == 0)
-            prod.remove(matchedProduct);
+            products.remove(matchedProduct);
     }
 
-    public ArrayList<Product> getAllProducts() {
-        return prod;
+    public ArrayList<SaleProduct> getAllProducts() {
+        return products;
     }
 
     public double getVAT() {
@@ -180,7 +181,7 @@ public class Sale {
     public void save() {
         if (this.id > 0) {
             Repository.updateSale(this);
-            for(Product p: prod){
+            for(SaleProduct p: products){
                 if (p.saleId() > 0)
                     p.update(this.id);
                 else
@@ -192,7 +193,7 @@ public class Sale {
 
             this.id = saleId;
             if (saleId > 0)
-                for(Product p: prod){
+                for(Product p: products){
                     p.save(saleId);
                 }
         }
@@ -201,24 +202,24 @@ public class Sale {
 
     public static Sale find(int id) {
         Sale sale = Repository.findSale(id);
-        ArrayList<Product> products = Repository.findProductsBySaleId(id);
+        ArrayList<SaleProduct> products = Repository.findProductsBySaleId(id);
 
         sale.addProducts(products);
         return sale;
     }
 
-    private void addProducts(ArrayList<Product> products) {
+    private void addProducts(ArrayList<SaleProduct> products) {
 
-        for (Product newProduct : products) {
+        for (SaleProduct newProduct : products) {
             boolean isNewProduct = true;
-            for (Product existingProducts : this.prod) 
+            for (Product existingProducts : this.products) 
                 if (existingProducts.id().equals(newProduct.id())) {
                     existingProducts.increaseQuantity(1);
                     isNewProduct = false;
                 }
             
             if (isNewProduct)
-                this.prod.add(newProduct);
+                this.products.add(newProduct);
         } 
     }
 

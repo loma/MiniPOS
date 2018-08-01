@@ -19,6 +19,7 @@ import java.util.Date;
 import java.util.List;
 import minipos.POProduct;
 import minipos.PurchasedOrder;
+import minipos.SaleProduct;
 import minipos.User;
 
 /**
@@ -184,19 +185,19 @@ public class Repository {
         return null;
     }
 
-    public static ArrayList<Product> findProductsBySaleId(int id) {
+    public static ArrayList<SaleProduct> findProductsBySaleId(int id) {
         String query = String.format("select * from sale_details where sale_id=%d;", id);
         
         try (Statement stmt = connection.createStatement()) {
 
             ResultSet rs = stmt.executeQuery(query);
-            ArrayList<Product> returnProducts = new ArrayList<Product>();
+            ArrayList<SaleProduct> returnProducts = new ArrayList<SaleProduct>();
             while (rs.next()) {
                 String productId = rs.getString("product_id");
                 int quantity = rs.getInt("quantity");
                 double price = rs.getDouble("price");
 
-                Product product = findProduct(productId);
+                SaleProduct product = SaleProduct.find(productId);
                 product.setPrice(price);
                 product.setQuantity(quantity);
                 product.setSaleId(id);
@@ -209,38 +210,10 @@ public class Repository {
         return null;
     }
 
-    public static POProduct findProduct(String id) {
-        String query = String.format("select * from products where id='%s';", id);
-        
-        try (Statement stmt = connection.createStatement()) {
-
-            ResultSet rs = stmt.executeQuery(query);
-            while (rs.next()) {
-                String name = rs.getString("name");
-                String productId = rs.getString("id");
-                double price = rs.getDouble("price");
-                double poPrice = rs.getDouble("purchased_price");
-                return new POProduct(id, name, price, poPrice);
-            }
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-        return null;
-    }
-
-    public static POProduct findPOProduct(String id) {
-        String query = String.format("select * from products where id='%s';", id);
-        
-        try (Statement stmt = connection.createStatement()) {
-
-            ResultSet rs = stmt.executeQuery(query);
-            while (rs.next()) {
-                String name = rs.getString("name");
-                String productId = rs.getString("id");
-                double price = rs.getDouble("price");
-                double poPrice = rs.getDouble("purchased_price");
-                return new POProduct(id, name, price, poPrice);
-            }
+    public static ResultSet getResultSet(String query) {
+        try {
+            Statement stmt = connection.createStatement();
+            return stmt.executeQuery(query);
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
