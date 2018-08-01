@@ -17,6 +17,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import minipos.POProduct;
+import minipos.PurchasedOrder;
 import minipos.User;
 
 /**
@@ -125,23 +127,7 @@ public class Repository {
         executeUpdate(query);
     }
 
-    public static int insertNewSale(Sale sale) {
-        sale.toString();
-        String query = String.format(
-            "insert into sales (total, discount, paid, vat, sale_on, sale_by, status) "
-                + "values(%f, %f, %f, %f, '%s', '%s', %d);", 
-            sale.getTotalPrice(), 
-            sale.getTotalDiscount(), 
-            sale.getTotalPayment(),
-            sale.VAT(),
-            sale.getSaleOnString(),
-            sale.getSaleBy(),
-            sale.getStatus().ordinal()
-        );
-        return executeUpdateWithLastId(query);
-    }
-
-    private static int executeUpdateWithLastId(String query) {
+    public static int executeUpdateWithLastId(String query) {
         try (Statement stmt = connection.createStatement()) {
             stmt.executeUpdate(query, Statement.RETURN_GENERATED_KEYS);
             ResultSet rs = stmt.getGeneratedKeys();
@@ -152,18 +138,6 @@ public class Repository {
             System.out.println(e.getMessage());
         }
         return 0;
-    }
-
-    public static void insertNewSaleDetails(Product product) {
-        String query = String.format(
-            "insert into sale_details (sale_id, product_id, quantity, price) "
-                + "values(%d, '%s', %d, %f);",
-            product.saleId(),
-            product.id(), 
-            product.quantity(),
-            product.price()
-        );
-        executeUpdate(query);
     }
 
     public static void updateSale(Sale sale) {
@@ -235,19 +209,46 @@ public class Repository {
         return null;
     }
 
-    public Repository(){
-        getConnection();
+    public static POProduct findProduct(String id) {
+        String query = String.format("select * from products where id='%s';", id);
+        
+        try (Statement stmt = connection.createStatement()) {
+
+            ResultSet rs = stmt.executeQuery(query);
+            while (rs.next()) {
+                String name = rs.getString("name");
+                String productId = rs.getString("id");
+                double price = rs.getDouble("price");
+                double poPrice = rs.getDouble("purchased_price");
+                return new POProduct(id, name, price, poPrice);
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
     }
 
-    public void insertNewProduct(Product product) {
-        String query = String.format(
-            "insert into products values('%s', '%s', %f);", 
-            product.id(), 
-            product.name(), 
-            product.price()
-        );
-        executeUpdate(query);
+    public static POProduct findPOProduct(String id) {
+        String query = String.format("select * from products where id='%s';", id);
         
+        try (Statement stmt = connection.createStatement()) {
+
+            ResultSet rs = stmt.executeQuery(query);
+            while (rs.next()) {
+                String name = rs.getString("name");
+                String productId = rs.getString("id");
+                double price = rs.getDouble("price");
+                double poPrice = rs.getDouble("purchased_price");
+                return new POProduct(id, name, price, poPrice);
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
+    }
+
+    public Repository(){
+        getConnection();
     }
 
     public static void executeUpdate(String query) {
@@ -282,21 +283,4 @@ public class Repository {
         return null;
     }
 
-    public static Product findProduct(String id) {
-        String query = String.format("select * from products where id='%s';", id);
-        
-        try (Statement stmt = connection.createStatement()) {
-
-            ResultSet rs = stmt.executeQuery(query);
-            while (rs.next()) {
-                String name = rs.getString("name");
-                String productId = rs.getString("id");
-                double price = rs.getDouble("price");
-                return new Product(id, name, price);
-            }
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-        return null;
-    }
 }

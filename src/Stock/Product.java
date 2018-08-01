@@ -19,11 +19,14 @@ public class Product {
     int quantity = 1;
     private final Repository repo;
     private int saleId;
+    protected final double poPrice;
 
-    public Product(String id, String name, double price) {
+
+    public Product(String id, String name, double price, double poPrice) {
         this.id = id;
         this.name = name;
         this.price = price;
+        this.poPrice = poPrice;
         this.repo = new Repository();
     }
 
@@ -56,8 +59,16 @@ public class Product {
     }
 
     public void save() {
-        repo.insertNewProduct(this);
+        String insertSQL = getInsertSQL();
+        Repository.executeUpdate(insertSQL);
     }
+
+    public void save(int saleId) {
+        this.saleId = saleId;
+        String insertSQL = getInsertDetailSQL();
+        Repository.executeUpdate(insertSQL);
+    }
+
 
     public void delete() {
         Repository.deleteProduct(this);
@@ -82,11 +93,6 @@ public class Product {
         this.quantity -= i;
     }
 
-    public void save(int saleId) {
-        this.saleId = saleId;
-        Repository.insertNewSaleDetails(this);
-    }
-
     public void update(int saleId) {
         this.saleId = saleId;
         Repository.updateSaleDetails(this);
@@ -94,5 +100,25 @@ public class Product {
 
     public void setSaleId(int id) {
         this.saleId = id;
+    }
+
+    private String getInsertSQL() {
+        return String.format(
+            "insert into products values('%s', '%s', %f);", 
+            id(), 
+            name(), 
+            price()
+        );
+    }
+
+    private String getInsertDetailSQL() {
+        return String.format(
+            "insert into sale_details (sale_id, product_id, quantity, price) "
+                + "values(%d, '%s', %d, %f);",
+            saleId(),
+            id(), 
+            quantity(),
+            price()
+        );
     }
 }

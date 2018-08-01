@@ -187,7 +187,9 @@ public class Sale {
                     p.save(this.id);
             }
         } else {
-            int saleId = Repository.insertNewSale(this);
+            String insertSQL = getInsertSQL();
+            int saleId = Repository.executeUpdateWithLastId(insertSQL);
+
             this.id = saleId;
             if (saleId > 0)
                 for(Product p: prod){
@@ -226,5 +228,19 @@ public class Sale {
 
     public void status(SaleStatus saleStatus) {
         this.status = saleStatus;
+    }
+
+    private String getInsertSQL() {
+        return String.format(
+            "insert into sales (total, discount, paid, vat, sale_on, sale_by, status) "
+                + "values(%f, %f, %f, %f, '%s', '%s', %d);", 
+            getTotalPrice(), 
+            getTotalDiscount(), 
+            getTotalPayment(),
+            VAT(),
+            getSaleOnString(),
+            getSaleBy(),
+            getStatus().ordinal()
+        );
     }
 }

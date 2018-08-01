@@ -40,6 +40,7 @@ public class MiniPOS {
         }
 
         Sale sale = new Sale();
+        PurchasedOrder po = new PurchasedOrder();
         sale.saleBy(user.getName());
         sale.status(SaleStatus.OPEN);
 
@@ -87,16 +88,16 @@ public class MiniPOS {
                     System.out.print("Product Id: ");
                     id = scanner.nextLine();
 
-                    newProduct = Product.find(id);
-                    //po.addProduct(newProduct);
-                    //po.printReceipt();
+                    POProduct newPoProduct = POProduct.find(id);
+                    po.addProduct(newPoProduct);
+                    po.printReceipt();
 
                     break;
                 case "02":
                     sale.printReceipt();
                     break;
                 case "12":
-                    //po.printReceipt();
+                    po.printReceipt();
                     break;
                 case "03":
                     System.out.print("Product Id: ");
@@ -111,14 +112,14 @@ public class MiniPOS {
                     id = scanner.nextLine();
 
                     newProduct = Product.find(id);
-                    //po.removeProduct(newProduct);
-                    //po.printReceipt();
+                    po.removeProduct(newProduct);
+                    po.printReceipt();
                     break;
                 case "04":
                     sale.save();
                     break;
                 case "14":
-                    //po.save();
+                    po.save();
                     break;
                 case "05":
                     System.out.print("Payment amount: ");
@@ -162,7 +163,10 @@ public class MiniPOS {
                     System.out.print("price: ");
                     double price = scanner.nextDouble();
 
-                    Product p = new Product(id, name, price);
+                    System.out.print("purchased price: ");
+                    double poPrice = scanner.nextDouble();
+
+                    Product p = new Product(id, name, price, poPrice);
                     p.save();
 
                     break;
