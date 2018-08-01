@@ -33,11 +33,7 @@ public class POProduct extends Product {
         ResultSet resultSet = Repository.getResultSet(findSQL);
         return createProduct(resultSet);
     }
-    /*
-    private static String getFindSQL(String id) {
-        return String.format("select * from products where id='%s';", id);
-    }
-*/
+
     private static POProduct createProduct(ResultSet resultSet) {
         try {
             while (resultSet.next()) {

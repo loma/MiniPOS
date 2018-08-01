@@ -193,7 +193,7 @@ public class Sale {
 
             this.id = saleId;
             if (saleId > 0)
-                for(Product p: products){
+                for(SaleProduct p: products){
                     p.save(saleId);
                 }
         }
@@ -212,7 +212,7 @@ public class Sale {
 
         for (SaleProduct newProduct : products) {
             boolean isNewProduct = true;
-            for (Product existingProducts : this.products) 
+            for (SaleProduct existingProducts : this.products) 
                 if (existingProducts.id().equals(newProduct.id())) {
                     existingProducts.increaseQuantity(1);
                     isNewProduct = false;

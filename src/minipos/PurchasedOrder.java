@@ -24,7 +24,7 @@ public class PurchasedOrder {
     private int id;
 
     void addProduct(POProduct newProduct) {
-        for (Product p : this.products) 
+        for (POProduct p : this.products) 
             if (p.id().equals(newProduct.id())) {
                 p.increaseQuantity(1);
                 return;
@@ -69,9 +69,9 @@ public class PurchasedOrder {
         return this.id;
     }
 
-    void removeProduct(Product newProduct) {
-        Product matchedProduct = null;
-        for(Product p: this.products){
+    void removeProduct(POProduct newProduct) {
+        POProduct matchedProduct = null;
+        for(POProduct p: this.products){
             if(p.id().equals(newProduct.id())) {
                 matchedProduct = p;
                 matchedProduct.decreaseQuantity(1);
