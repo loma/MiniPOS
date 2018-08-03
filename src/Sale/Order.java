@@ -5,7 +5,7 @@
  */
 package Sale;
 
-import Stock.Product;
+import Product.Product;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -66,7 +66,7 @@ public class Order {
     public void addProduct(Product p1) {
         this.status = SaleStatus.PROGRESS;
         for (Product p : products) 
-            if (p.id().equals(p1.id())) {
+            if (p.getId().equals(p1.getId())) {
                 p.increaseQuantity(1);
                 return;
             }
@@ -76,7 +76,7 @@ public class Order {
     public double getTotalPrice() {
         int sum=0;
         for(Product p: products){
-            sum += p.price() * p.quantity();
+            sum += p.price() * p.getQuantity();
         }
         return sum;
     }
@@ -84,7 +84,7 @@ public class Order {
     public Product findProduct(String id) {
         
         for(Product p: products){
-            if(p.id().equals(id))
+            if(p.getId().equals(id))
                 return p;
         }
         return null;        
@@ -92,14 +92,14 @@ public class Order {
     public void removeProduct(Product removeProduct) {
         Product matchedProduct = null;
         for(Product p: products){
-            if(p.id().equals(p.id())) {
+            if(p.getId().equals(p.getId())) {
                 matchedProduct = p;
                 matchedProduct.decreaseQuantity(1);
             }
         }
 
         if (matchedProduct != null &&
-            matchedProduct.quantity() == 0)
+            matchedProduct.getQuantity() == 0)
             products.remove(matchedProduct);
     }
 
@@ -156,7 +156,7 @@ public class Order {
         for (Product p : getAllProducts())
             System.out.println(
                 String.format("%s\t\t%d\t%.2f\t\t%.2f", 
-                    p.name(), p.quantity(), p.price(), p.price() * p.quantity()));
+                    p.getName(), p.getQuantity(), p.price(), p.price() * p.getQuantity()));
         System.out.println("-------------------------------------------------------");
         System.out.println("\t\t\t\tTotal:\t" +getTotalPrice());
         System.out.println("\t\t\t     Discount:\t" +getTotalDiscount());
@@ -187,7 +187,7 @@ public class Order {
         for (Product newProduct : products) {
             boolean isNewProduct = true;
             for (Product existingProducts : this.products) 
-                if (existingProducts.id().equals(newProduct.id())) {
+                if (existingProducts.getId().equals(newProduct.getId())) {
                     existingProducts.increaseQuantity(1);
                     isNewProduct = false;
                 }

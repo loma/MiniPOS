@@ -5,8 +5,9 @@
  */
 package Sale;
 
+import Product.SaleProduct;
 import Repository.Repository;
-import Stock.Product;
+import Product.Product;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DateFormat;
@@ -14,7 +15,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import Stock.POProduct;
+import Product.POProduct;
 
 /**
  *
@@ -78,7 +79,7 @@ public class Sale extends Order {
             String query = getUpdateSQL();
             Repository.executeUpdate(query);
             for(Product p: products){
-                if (p.saleId() > 0)
+                if (p.getSaleId() > 0)
                     p.update(this.id);
                 else
                     p.save(this.id);

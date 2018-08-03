@@ -12,6 +12,6 @@ package Config;
  */
 public class MiniPOSConfig {
     public static final String DB_NAME = "pos"; 
-    public static final String DB_USERNAME = "mini"; 
-    public static final String DB_PASSWORD = "mini"; 
+    public static final String DB_USERNAME = "root"; 
+    public static final String DB_PASSWORD = "asdf123457"; 
 }

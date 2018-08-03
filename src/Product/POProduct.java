@@ -3,10 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Stock;
+package Product;
 
 import Repository.Repository;
-import Stock.Product;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -18,7 +17,6 @@ import java.util.logging.Logger;
  */
 public class POProduct extends Product {
 
-    private int poId;
     
     public POProduct(String id, String name, double price, double poPrice) {
         super(id, name, price, poPrice);
@@ -57,23 +55,19 @@ public class POProduct extends Product {
         increaseQuantity();
     }
 
-    public int poId() {
-        return this.poId;
-    }
-
     private String getInsertDetailSQL() {
         return String.format(
             "insert into purchased_order_details (purchased_order_id, product_id, quantity, price) "
                 + "values(%d, '%s', %d, %f);",
-            poId(),
-            id(), 
-            quantity(),
+            getPOId(),
+            getId(), 
+            getQuantity(),
             price()
         );
     }
 
     private void increaseQuantity() {
-        String query = "update products set quantity=quantity +"+this.quantity()+" where id='"+ this.id() +"';";
+        String query = "update products set quantity=quantity +"+this.getQuantity()+" where id='"+ this.getId() +"';";
         Repository.executeUpdate(query);
     }
 }

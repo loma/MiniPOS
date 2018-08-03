@@ -7,7 +7,7 @@ package Stock;
 
 import Repository.Repository;
 import Sale.Order;
-import Stock.Product;
+import Product.Product;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -23,7 +23,7 @@ public class PurchasedOrder extends Order {
             String query = getUpdateSQL();
             Repository.executeUpdate(query);
             for(Product p: products){
-                if (p.poId() > 0)
+                if (p.getPOId() > 0)
                     p.update(this.id);
                 else
                     p.save(this.id);

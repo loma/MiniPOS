@@ -3,10 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Sale;
+package Product;
 
 import Repository.Repository;
-import Stock.Product;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -18,6 +17,10 @@ import java.util.logging.Logger;
  * @author loma
  */
 public class SaleProduct extends Product {
+
+    public SaleProduct(String id, String name, double price, double poPrice) {
+        super(id, name, price, poPrice);
+    }
 
     public static ArrayList<Product> findBySaleId(int id) {
         String query = String.format("select * from sale_details where sale_id=%d;", id);
@@ -43,9 +46,6 @@ public class SaleProduct extends Product {
         return null;
     }
 
-    public SaleProduct(String id, String name, double price, double poPrice) {
-        super(id, name, price, poPrice);
-    }
 
     public static SaleProduct find(String id) {
         String findSQL = getFindSQL(id);
@@ -84,10 +84,10 @@ public class SaleProduct extends Product {
         return String.format(
             "update sale_details set quantity=%d, price=%f "
                 + "where sale_id=%d and product_id='%s'; ",
-            quantity(),
+            getQuantity(),
             price(),
-            saleId(),
-            id()
+            getSaleId(),
+            getId()
         );
     }
 
@@ -95,15 +95,15 @@ public class SaleProduct extends Product {
         return String.format(
             "insert into sale_details (sale_id, product_id, quantity, price) "
                 + "values(%d, '%s', %d, %f);",
-            saleId(),
-            id(), 
-            quantity(),
+            getSaleId(),
+            getId(), 
+            getQuantity(),
             price()
         );
     }
 
     private void decreaseQuantity() {
-        String query = "update products set quantity = quantity-"+this.quantity()+" where id='"+ this.id() +"';";
+        String query = "update products set quantity = quantity-"+this.getQuantity()+" where id='"+ this.getId() +"';";
         Repository.executeUpdate(query);
     }
 }

@@ -7,12 +7,12 @@ package minipos;
 
 import User.User;
 import Stock.PurchasedOrder;
-import Stock.POProduct;
-import Sale.SaleProduct;
+import Product.POProduct;
+import Product.SaleProduct;
 import Repository.Repository;
 import Sale.Sale;
 import Sale.SaleStatus;
-import Stock.Product;
+import Product.Product;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -170,7 +170,7 @@ public class MiniPOS {
                     double poPrice = scanner.nextDouble();
 
                     Product p = new Product(id, name, price, poPrice);
-                    p.save();
+                    p.save(0);
 
                     break;
 
@@ -189,7 +189,7 @@ public class MiniPOS {
                     p = Product.find(id);
 
 
-                    System.out.print("name ("+p.name()+"): ");
+                    System.out.print("name ("+p.getName()+"): ");
                     name = scanner.nextLine();
                     if (!name.equals("")) p.setName(name);
 

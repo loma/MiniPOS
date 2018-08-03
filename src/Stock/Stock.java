@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package Stock;
+import Product.Product;
 import java.util.ArrayList;
 
 /**

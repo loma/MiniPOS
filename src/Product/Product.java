@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Stock;
+package Product;
 
 import Repository.Repository;
 import java.sql.ResultSet;
@@ -16,6 +16,76 @@ import java.util.logging.Logger;
  * @author Trivico
  */
 public class Product {
+
+    String name;
+    int quantity = 1;
+
+    String id;
+    protected int saleId;
+    protected int poId;
+
+    double price;
+    protected final double poPrice;
+
+
+    public Product(String id, String name, double price, double poPrice) {
+        this.id = id;
+        this.name = name;
+        this.price = price;
+        this.poPrice = poPrice;
+    }
+
+    public int getSaleId() {
+        return saleId;
+    }
+    public int getPOId() {
+        return poId;
+    }
+
+    public double price() {
+        return price;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setPrice(double i) {
+        this.price =i;
+    }
+
+    public void setQuantity(int i) {
+        this.quantity = i;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void save(int id) {
+        String insertSQL = getInsertSQL();
+        Repository.executeUpdate(insertSQL);
+    }
+
+
+    public void delete() {
+        Repository.deleteProduct(this);
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    
+    public static Product find(String id) {
+        String findSQL = getFindSQL(id);
+        ResultSet resultSet = Repository.getResultSet(findSQL);
+        return createProduct(resultSet);
+    }
 
     protected static String getFindSQL(String id) {
         return String.format("select * from products where id='%s';", id);
@@ -37,78 +107,6 @@ public class Product {
     }
 
 
-    String id;
-    String name;
-    double price;
-    int quantity = 1;
-    private final Repository repo;
-    protected int saleId;
-    protected int poId;
-    protected final double poPrice;
-
-
-    public Product(String id, String name, double price, double poPrice) {
-        this.id = id;
-        this.name = name;
-        this.price = price;
-        this.poPrice = poPrice;
-        this.repo = new Repository();
-    }
-
-    public int saleId() {
-        return saleId;
-    }
-    public int poId() {
-        return poId;
-    }
-
-    public double price() {
-        return price;
-    }
-
-    public String name() {
-        return name;
-    }
-
-    public String id() {
-        return id;
-    }
-
-    public void setPrice(double i) {
-        this.price =i;
-    }
-
-    public void setQuantity(int i) {
-        this.quantity = i;
-    }
-
-    public int quantity() {
-        return quantity;
-    }
-
-    public void save() {
-        String insertSQL = getInsertSQL();
-        Repository.executeUpdate(insertSQL);
-    }
-
-    public void save(int saleId) {
-    }
-
-
-    public void delete() {
-        Repository.deleteProduct(this);
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    
-    public static Product find(String id) {
-        String findSQL = getFindSQL(id);
-        ResultSet resultSet = Repository.getResultSet(findSQL);
-        return createProduct(resultSet);
-    }
 
     public void increaseQuantity(int i) {
         this.quantity += i;
@@ -134,21 +132,19 @@ public class Product {
     }
 
     private String getInsertSQL() {
-        return String.format(
-            "insert into products (id, name, price, purchased_price, quantity) values('%s', '%s', %f, %f, 0);", 
-            id(), 
-            name(), 
+        return String.format("insert into products (id, name, price, purchased_price, quantity) values('%s', '%s', %f, %f, 0);", 
+            getId(), 
+            getName(), 
             price(),
             this.poPrice
         );
     }
 
     private String getUpdateSQL() {
-        return String.format(
-            "update products set name='%s', price=%f where id ='%s';", 
-            name(), 
+        return String.format("update products set name='%s', price=%f where id ='%s';", 
+            getName(), 
             price(),
-            id()
+            getId()
         );
     }
 

@@ -7,7 +7,7 @@ package Repository;
 
 import Config.MiniPOSConfig;
 import Sale.Sale;
-import Stock.Product;
+import Product.Product;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -17,9 +17,9 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import Stock.POProduct;
+import Product.POProduct;
 import Stock.PurchasedOrder;
-import Sale.SaleProduct;
+import Product.SaleProduct;
 import User.User;
 
 /**
@@ -31,7 +31,7 @@ public class Repository {
     static Connection connection;
 
     public static void deleteProduct(Product product) {
-        String query = String.format("delete from products where id='%s'", product.id());
+        String query = String.format("delete from products where id='%s'", product.getId());
         executeUpdate(query);
     }
 
@@ -165,8 +165,8 @@ public class Repository {
             String serverName = "localhost";
             String schema = MiniPOSConfig.DB_NAME +"?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
             String url = "jdbc:mysql://" + serverName +  "/" + schema;
-            String username = "root";
-            String password = "asdf123457";
+            String username = MiniPOSConfig.DB_USERNAME;
+            String password = MiniPOSConfig.DB_PASSWORD;
             connection = DriverManager.getConnection(url, username, password);
             System.out.println("Successfully Connected to the database!");
             Repository.connection = connection;
