@@ -46,28 +46,4 @@ public class POProduct extends Product {
         }
         return null;
     }
-
-    public void save(int poId) {
-        this.poId = poId;
-        String insertSQL = getInsertDetailSQL();
-        Repository.executeUpdate(insertSQL);
-
-        increaseQuantity();
-    }
-
-    private String getInsertDetailSQL() {
-        return String.format(
-            "insert into purchased_order_details (purchased_order_id, product_id, quantity, price) "
-                + "values(%d, '%s', %d, %f);",
-            getPOId(),
-            getId(), 
-            getQuantity(),
-            price()
-        );
-    }
-
-    private void increaseQuantity() {
-        String query = "update products set quantity=quantity +"+this.getQuantity()+" where id='"+ this.getId() +"';";
-        Repository.executeUpdate(query);
-    }
 }

@@ -81,8 +81,11 @@ public class Sale extends Order {
             for(Product p: products){
                 if (p.getSaleId() > 0)
                     p.update(this.id);
-                else
+                else {
+                    p.setSaleId(this.id);
                     p.save(this.id);
+                    p.decreaseQuantity();
+                }
             }
         } else {
             String insertSQL = getInsertSQL();
@@ -91,7 +94,9 @@ public class Sale extends Order {
             this.id = saleId;
             if (saleId > 0)
                 for(Product p: products){
+                    p.setSaleId(saleId);
                     p.save(saleId);
+                    p.decreaseQuantity();
                 }
         }
     }

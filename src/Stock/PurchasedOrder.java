@@ -25,8 +25,11 @@ public class PurchasedOrder extends Order {
             for(Product p: products){
                 if (p.getPOId() > 0)
                     p.update(this.id);
-                else
+                else {
+                    p.setPOId(this.id);
                     p.save(this.id);
+                    p.increaseQuantity();
+                }
             }
         } else {
             String insertSQL = getInsertSQL();
@@ -35,7 +38,9 @@ public class PurchasedOrder extends Order {
             this.id = saleId;
             if (saleId > 0)
                 for(Product p: products){
+                    p.setPOId(saleId);
                     p.save(saleId);
+                    p.increaseQuantity();
                 }
         }
     }

@@ -68,12 +68,6 @@ public class SaleProduct extends Product {
         return null;
     }
 
-    public void save(int saleId) {
-        this.saleId = saleId;
-        String insertSQL = getInsertSQL();
-        Repository.executeUpdate(insertSQL);
-        decreaseQuantity();
-    }
 
     public void update(int saleId) {
         this.saleId = saleId;
@@ -89,21 +83,5 @@ public class SaleProduct extends Product {
             getSaleId(),
             getId()
         );
-    }
-
-    private String getInsertSQL() {
-        return String.format(
-            "insert into sale_details (sale_id, product_id, quantity, price) "
-                + "values(%d, '%s', %d, %f);",
-            getSaleId(),
-            getId(), 
-            getQuantity(),
-            price()
-        );
-    }
-
-    private void decreaseQuantity() {
-        String query = "update products set quantity = quantity-"+this.getQuantity()+" where id='"+ this.getId() +"';";
-        Repository.executeUpdate(query);
     }
 }

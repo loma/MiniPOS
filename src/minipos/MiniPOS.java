@@ -13,6 +13,7 @@ import Repository.Repository;
 import Sale.Sale;
 import Sale.SaleStatus;
 import Product.Product;
+import Product.SQLGenerator;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -84,6 +85,9 @@ public class MiniPOS {
                     System.out.print("Product Id: ");
                     String id = scanner.nextLine();
                     SaleProduct saleProduct = SaleProduct.find(id);
+                    saleProduct.setSQLGenerator(
+                        new SQLGenerator(saleProduct)
+                    );
                     sale.addProduct(saleProduct);
                     sale.printReceipt();
                     break;
@@ -170,6 +174,7 @@ public class MiniPOS {
                     double poPrice = scanner.nextDouble();
 
                     Product p = new Product(id, name, price, poPrice);
+                    p.setSQLGenerator(new SQLGenerator(p));
                     p.save(0);
 
                     break;

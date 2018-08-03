@@ -27,6 +27,7 @@ public class Product {
     double price;
     protected final double poPrice;
 
+    SQLGenerator sqlGenerator;
 
     public Product(String id, String name, double price, double poPrice) {
         this.id = id;
@@ -66,12 +67,6 @@ public class Product {
         return quantity;
     }
 
-    public void save(int id) {
-        String insertSQL = getInsertSQL();
-        Repository.executeUpdate(insertSQL);
-    }
-
-
     public void delete() {
         Repository.deleteProduct(this);
     }
@@ -81,15 +76,34 @@ public class Product {
     }
 
     
+    protected static String getFindSQL(String id) {
+        return String.format("select * from products where id='%s';", id);
+    }
     public static Product find(String id) {
         String findSQL = getFindSQL(id);
         ResultSet resultSet = Repository.getResultSet(findSQL);
         return createProduct(resultSet);
     }
-
-    protected static String getFindSQL(String id) {
-        return String.format("select * from products where id='%s';", id);
+    private String getUpdateSQL() {
+        return String.format("update products set name='%s', price=%f where id ='%s';", 
+            getName(), 
+            price(),
+            getId()
+        );
     }
+    public void update() {
+        String updateSQL = getUpdateSQL();
+        Repository.executeUpdate(updateSQL);
+    }
+
+    public void setSQLGenerator(SQLGenerator generator){
+        this.sqlGenerator = generator;
+    }
+    public void save(int id) {
+        String insertSQL = sqlGenerator.getInsertSQL();
+        Repository.executeUpdate(insertSQL);
+    }
+
 
     private static Product createProduct(ResultSet resultSet) {
         try {
@@ -116,10 +130,6 @@ public class Product {
         this.quantity -= i;
     }
 
-    public void update() {
-        String updateSQL = getUpdateSQL();
-        Repository.executeUpdate(updateSQL);
-    }
 
     public void update(int saleId) {
     }
@@ -131,21 +141,16 @@ public class Product {
         this.poId = id;
     }
 
-    private String getInsertSQL() {
-        return String.format("insert into products (id, name, price, purchased_price, quantity) values('%s', '%s', %f, %f, 0);", 
-            getId(), 
-            getName(), 
-            price(),
-            this.poPrice
-        );
+    public void decreaseQuantity() {
+        String query = "update products set quantity = quantity-" + this.getQuantity() + " where id='" + this.getId() + "';";
+        Repository.executeUpdate(query);
     }
 
-    private String getUpdateSQL() {
-        return String.format("update products set name='%s', price=%f where id ='%s';", 
-            getName(), 
-            price(),
-            getId()
-        );
+    protected void increaseQuantity() {
+        String query = "update products set quantity=quantity +" + this.getQuantity() + " where id='" + this.getId() + "';";
+        Repository.executeUpdate(query);
     }
+
+
 
 }
