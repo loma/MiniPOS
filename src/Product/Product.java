@@ -24,16 +24,20 @@ public class Product {
     protected int saleId;
     protected int poId;
 
-    double price;
-    protected final double poPrice;
+    protected double price;
+    protected double poPrice;
 
     SQLGenerator sqlGenerator;
+    ProductGenerator productGenerator;
 
     public Product(String id, String name, double price, double poPrice) {
         this.id = id;
         this.name = name;
         this.price = price;
         this.poPrice = poPrice;
+    }
+
+    public Product() {
     }
 
     public int getSaleId() {
@@ -79,10 +83,14 @@ public class Product {
     protected static String getFindSQL(String id) {
         return String.format("select * from products where id='%s';", id);
     }
-    public static Product find(String id) {
+
+    public void setProductGenerator(ProductGenerator generator){
+        this.productGenerator = generator;
+    }
+    public Product find(String id) {
         String findSQL = getFindSQL(id);
         ResultSet resultSet = Repository.getResultSet(findSQL);
-        return createProduct(resultSet);
+        return productGenerator.createProduct(resultSet);
     }
     private String getUpdateSQL() {
         return String.format("update products set name='%s', price=%f where id ='%s';", 
@@ -104,21 +112,6 @@ public class Product {
         Repository.executeUpdate(insertSQL);
     }
 
-
-    private static Product createProduct(ResultSet resultSet) {
-        try {
-            while (resultSet.next()) {
-                String name = resultSet.getString("name");
-                String productId = resultSet.getString("id");
-                double price = resultSet.getDouble("price");
-                double poPrice = resultSet.getDouble("purchased_price");
-                return new Product(productId, name, price, poPrice);
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(Product.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
-    }
 
 
 
@@ -146,7 +139,7 @@ public class Product {
         Repository.executeUpdate(query);
     }
 
-    protected void increaseQuantity() {
+    public void increaseQuantity() {
         String query = "update products set quantity=quantity +" + this.getQuantity() + " where id='" + this.getId() + "';";
         Repository.executeUpdate(query);
     }

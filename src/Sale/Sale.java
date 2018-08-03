@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import Product.POProduct;
+import minipos.MiniPOS;
 
 /**
  *
@@ -50,7 +51,7 @@ public class Sale extends Order {
                 String saleBy  = rs.getString("sale_by");
                 Sale sale = new Sale(id, discount, vat, payment, status, saleOn, saleBy);
 
-                sale.addProducts(SaleProduct.findBySaleId(id));
+                sale.addProducts(findBySaleId(id));
 
                 return sale;
             }
@@ -59,6 +60,32 @@ public class Sale extends Order {
         }
         return null;
     }
+
+    private static ArrayList<Product> findBySaleId(int id) {
+        String query = String.format("select * from sale_details where sale_id=%d;", id);
+        
+        ResultSet rs = Repository.getResultSet(query);
+        try {
+            ArrayList<Product> returnProducts = new ArrayList<Product>();
+            while (rs.next()) {
+
+                String productId = rs.getString("product_id");
+                
+                Product product = MiniPOS.findSaleProduct(productId);
+                int quantity = rs.getInt("quantity");
+                double price = rs.getDouble("price");
+                product.setPrice(price);
+                product.setQuantity(quantity);
+                product.setSaleId(id);
+                returnProducts.add(product);
+            }
+            return returnProducts;
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
+    }
+
 
     private String getInsertSQL() {
         return String.format(

@@ -18,8 +18,7 @@ public class SQLGenerator {
     }
 
     String getInsertSQL() {
-        String className = product.getClass().getName();
-        
+        String className = product.getClass().getName(); 
         switch(className){
             case "Product.POProduct":
                 return getInsertSQLPODetails();

@@ -9,8 +9,7 @@ import Repository.Repository;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import minipos.MiniPOS;
 
 /**
  *
@@ -22,53 +21,8 @@ public class SaleProduct extends Product {
         super(id, name, price, poPrice);
     }
 
-    public static ArrayList<Product> findBySaleId(int id) {
-        String query = String.format("select * from sale_details where sale_id=%d;", id);
-        
-        ResultSet rs = Repository.getResultSet(query);
-        try {
-            ArrayList<Product> returnProducts = new ArrayList<Product>();
-            while (rs.next()) {
-
-                String productId = rs.getString("product_id");
-                SaleProduct product = SaleProduct.find(productId);
-                int quantity = rs.getInt("quantity");
-                double price = rs.getDouble("price");
-                product.setPrice(price);
-                product.setQuantity(quantity);
-                product.setSaleId(id);
-                returnProducts.add(product);
-            }
-            return returnProducts;
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-        return null;
+    public SaleProduct() {
     }
-
-
-    public static SaleProduct find(String id) {
-        String findSQL = getFindSQL(id);
-        ResultSet resultSet = Repository.getResultSet(findSQL);
-        return createProduct(resultSet);
-    }
-
-    private static SaleProduct createProduct(ResultSet resultSet) {
-        try {
-            while (resultSet.next()) {
-                String name = resultSet.getString("name");
-                String productId = resultSet.getString("id");
-                double price = resultSet.getDouble("price");
-                double poPrice = resultSet.getDouble("purchased_price");
-                return new SaleProduct(productId, name, price, poPrice);
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(Product.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
-    }
-
-
     public void update(int saleId) {
         this.saleId = saleId;
         this.update();

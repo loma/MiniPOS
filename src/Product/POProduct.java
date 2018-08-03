@@ -22,28 +22,10 @@ public class POProduct extends Product {
         super(id, name, price, poPrice);
     }
 
+    public POProduct() {
+    }
+
     public double price() {
         return poPrice;
-    }
-
-    public static POProduct find(String id) {
-        String findSQL = getFindSQL(id);
-        ResultSet resultSet = Repository.getResultSet(findSQL);
-        return createProduct(resultSet);
-    }
-
-    private static POProduct createProduct(ResultSet resultSet) {
-        try {
-            while (resultSet.next()) {
-                String name = resultSet.getString("name");
-                String productId = resultSet.getString("id");
-                double price = resultSet.getDouble("price");
-                double poPrice = resultSet.getDouble("purchased_price");
-                return new POProduct(productId, name, price, poPrice);
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(Product.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
     }
 }
