@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package minipos;
+package Stock;
 
 import Repository.Repository;
 import Stock.Product;
@@ -53,6 +53,8 @@ public class POProduct extends Product {
         this.poId = poId;
         String insertSQL = getInsertDetailSQL();
         Repository.executeUpdate(insertSQL);
+
+        increaseQuantity();
     }
 
     public int poId() {
@@ -68,5 +70,10 @@ public class POProduct extends Product {
             quantity(),
             price()
         );
+    }
+
+    private void increaseQuantity() {
+        String query = "update products set quantity=quantity +"+this.quantity()+" where id='"+ this.id() +"';";
+        Repository.executeUpdate(query);
     }
 }

@@ -3,13 +3,16 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/Users/loma/course/practical_java/MiniPOS/src/User/User.java</file>
             <file>file:/Users/loma/course/practical_java/MiniPOS/src/minipos/MiniPOS.java</file>
-            <file>file:/Users/loma/course/practical_java/MiniPOS/src/minipos/PurchasedOrder.java</file>
-            <file>file:/Users/loma/course/practical_java/MiniPOS/src/minipos/POProduct.java</file>
+            <file>file:/Users/loma/course/practical_java/MiniPOS/src/User/Role.java</file>
+            <file>file:/Users/loma/course/practical_java/MiniPOS/src/Stock/POProduct.java</file>
+            <file>file:/Users/loma/course/practical_java/MiniPOS/src/Sale/Order.java</file>
             <file>file:/Users/loma/course/practical_java/MiniPOS/src/Sale/Sale.java</file>
+            <file>file:/Users/loma/course/practical_java/MiniPOS/src/Sale/SaleProduct.java</file>
+            <file>file:/Users/loma/course/practical_java/MiniPOS/src/Stock/PurchasedOrder.java</file>
             <file>file:/Users/loma/course/practical_java/MiniPOS/src/Repository/Repository.java</file>
             <file>file:/Users/loma/course/practical_java/MiniPOS/src/Stock/Stock.java</file>
-            <file>file:/Users/loma/course/practical_java/MiniPOS/src/Stock/Product.java</file>
         </group>
     </open-files>
 </project-private>

@@ -7,4 +7,4 @@
  * Author:  loma
  * Created: Jul 31, 2018
  */
-CREATE TABLE `MiniPOS`.`purchased_order` ( `id` INT NOT NULL AUTO_INCREMENT , `total` DECIMAL NOT NULL , `purchased_on` DATETIME NOT NULL , `purchased_by` VARCHAR(100) NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;
+CREATE TABLE `purchased_order` ( `id` INT NOT NULL AUTO_INCREMENT , `total` DECIMAL NOT NULL , `purchased_on` DATETIME NOT NULL , `purchased_by` VARCHAR(100) NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;

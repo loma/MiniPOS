@@ -10,7 +10,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import minipos.SaleProduct;
 
 /**
  *
@@ -43,7 +42,8 @@ public class Product {
     double price;
     int quantity = 1;
     private final Repository repo;
-    private int saleId;
+    protected int saleId;
+    protected int poId;
     protected final double poPrice;
 
 
@@ -57,6 +57,9 @@ public class Product {
 
     public int saleId() {
         return saleId;
+    }
+    public int poId() {
+        return poId;
     }
 
     public double price() {
@@ -89,9 +92,6 @@ public class Product {
     }
 
     public void save(int saleId) {
-        this.saleId = saleId;
-        String insertSQL = getInsertDetailSQL();
-        Repository.executeUpdate(insertSQL);
     }
 
 
@@ -103,9 +103,6 @@ public class Product {
         this.name = name;
     }
 
-    public void update() {
-        Repository.updateProduct(this);
-    }
     
     public static Product find(String id) {
         String findSQL = getFindSQL(id);
@@ -121,32 +118,38 @@ public class Product {
         this.quantity -= i;
     }
 
+    public void update() {
+        String updateSQL = getUpdateSQL();
+        Repository.executeUpdate(updateSQL);
+    }
+
     public void update(int saleId) {
-        this.saleId = saleId;
-        Repository.updateSaleDetails(this);
     }
 
     public void setSaleId(int id) {
         this.saleId = id;
     }
+    public void setPOId(int id) {
+        this.poId = id;
+    }
 
     private String getInsertSQL() {
         return String.format(
-            "insert into products values('%s', '%s', %f);", 
+            "insert into products (id, name, price, purchased_price, quantity) values('%s', '%s', %f, %f, 0);", 
             id(), 
             name(), 
-            price()
+            price(),
+            this.poPrice
         );
     }
 
-    private String getInsertDetailSQL() {
+    private String getUpdateSQL() {
         return String.format(
-            "insert into sale_details (sale_id, product_id, quantity, price) "
-                + "values(%d, '%s', %d, %f);",
-            saleId(),
-            id(), 
-            quantity(),
-            price()
+            "update products set name='%s', price=%f where id ='%s';", 
+            name(), 
+            price(),
+            id()
         );
     }
+
 }

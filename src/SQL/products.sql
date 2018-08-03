@@ -14,6 +14,6 @@ CREATE TABLE `products` (
  `name` varchar(200) NOT NULL,
  `price` decimal(10,0) NOT NULL,
  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 ALTER TABLE `products` ADD `quantity` INT NOT NULL AFTER `price`, ADD `purchased_price` INT NOT NULL AFTER `quantity`;

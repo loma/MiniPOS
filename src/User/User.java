@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package minipos;
+package User;
 
+import User.Role;
 import Repository.Repository;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,11 +16,11 @@ import java.util.List;
  */
 public class User {
 
-    static List<User> all() {
+    public static List<User> all() {
         return Repository.getAllUsers();
     }
 
-    static User find(int userId) {
+    public static User find(int userId) {
         return Repository.findUser(userId);
     }
 
@@ -35,15 +36,16 @@ public class User {
         this.role = Role.values()[role];
     }
 
-    User() {
+    public User() {
     }
 
-    User(int id, String name, String password, int role) {
+    public User(int id, String name, String password, int role) {
         this.id = id;
         this.name = name;
         this.password = password;
         this.role = Role.values()[role];
     }
+
 
     public int getId(){
         return this.id;
@@ -58,36 +60,36 @@ public class User {
         return this.password;
     }
 
-    boolean isLogin() {
+    public boolean isLogin() {
         return loginStatus;
     }
 
-    void login(String username, String password) {
+    public void login(String username, String password) {
         this.setUsername(username);
         loginStatus = Repository.checkUsernamePassword(username, password);
     }
 
-    void save() {
+    public void save() {
         Repository.updateUser(this);
     }
 
-    void delete() {
+    public void delete() {
         Repository.deleteUser(this);
     }
 
-    void setUsername(String username) {
+    public void setUsername(String username) {
         this.name = username;
     }
 
-    void setPassword(String password) {
+    public void setPassword(String password) {
         this.password = password;
     }
 
-    void setRole(int role) {
+    public void setRole(int role) {
         this.role = Role.values()[role];
     }
 
-    void update() {
+    public void update() {
         Repository.updateUser(this);
     }
     

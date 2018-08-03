@@ -8,4 +8,4 @@
  * Created: Jul 31, 2018
  */
 
-CREATE TABLE `MiniPOS`.`purchased_order_details` ( `id` INT NOT NULL AUTO_INCREMENT , `purchased_order_id` INT NOT NULL , `product_id` INT NOT NULL , `quantity` INT NOT NULL , `price` DOUBLE NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;
+CREATE TABLE `purchased_order_details` ( `id` INT NOT NULL AUTO_INCREMENT , `purchased_order_id` INT NOT NULL , `product_id` INT NOT NULL , `quantity` INT NOT NULL , `price` DOUBLE NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;

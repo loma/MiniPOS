@@ -5,6 +5,10 @@
  */
 package minipos;
 
+import User.User;
+import Stock.PurchasedOrder;
+import Stock.POProduct;
+import Sale.SaleProduct;
 import Repository.Repository;
 import Sale.Sale;
 import Sale.SaleStatus;

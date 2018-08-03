@@ -14,7 +14,7 @@ CREATE TABLE `sales` (
  `paid` double NOT NULL,
  `vat` double NOT NULL,
  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 
 ALTER TABLE `sales` ADD `sale_on` DATETIME NOT NULL AFTER `vat`, ADD `sale_by` VARCHAR(100) NOT NULL AFTER `sale_on`, ADD `status` INT NOT NULL AFTER `sale_by`;

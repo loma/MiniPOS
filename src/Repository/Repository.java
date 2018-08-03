@@ -17,10 +17,10 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import minipos.POProduct;
-import minipos.PurchasedOrder;
-import minipos.SaleProduct;
-import minipos.User;
+import Stock.POProduct;
+import Stock.PurchasedOrder;
+import Sale.SaleProduct;
+import User.User;
 
 /**
  *
@@ -29,16 +29,6 @@ import minipos.User;
 public class Repository {
 
     static Connection connection;
-
-    public static void updateProduct(Product product) {
-        String query = String.format(
-            "update products set name='%s', price=%f where id ='%s';", 
-            product.name(), 
-            product.price(),
-            product.id()
-        );
-        executeUpdate(query);
-    }
 
     public static void deleteProduct(Product product) {
         String query = String.format("delete from products where id='%s'", product.id());
@@ -141,75 +131,6 @@ public class Repository {
         return 0;
     }
 
-    public static void updateSale(Sale sale) {
-        String query = String.format(
-            "update sales set total=%f, discount=%f, paid=%f "
-                + " where id=%d;", 
-            sale.getTotalPrice(), 
-            sale.getTotalDiscount(), 
-            sale.getTotalPayment(),
-            sale.id()
-        );
-        executeUpdate(query);
-    }
-
-    public static void updateSaleDetails(Product product) {
-        String query = String.format(
-            "update sale_details set quantity=%d, price=%f "
-                + "where sale_id=%d and product_id='%s'; ",
-            product.quantity(),
-            product.price(),
-            product.saleId(),
-            product.id()
-        );
-        executeUpdate(query);
-    }
-
-    public static Sale findSale(int id) {
-        String query = String.format("select * from sales where id=%d;", id);
-        
-        try (Statement stmt = connection.createStatement()) {
-            ResultSet rs = stmt.executeQuery(query);
-            while (rs.next()) {
-                double payment  = rs.getDouble("paid");
-                double discount  = rs.getDouble("discount");
-                double vat  = rs.getDouble("vat");
-                int status  = rs.getInt("status");
-                Date saleOn  = rs.getDate("sale_on");
-                String saleBy  = rs.getString("sale_by");
-                return new Sale(id, discount, vat, payment, status, saleOn, saleBy);
-            }
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-        return null;
-    }
-
-    public static ArrayList<SaleProduct> findProductsBySaleId(int id) {
-        String query = String.format("select * from sale_details where sale_id=%d;", id);
-        
-        try (Statement stmt = connection.createStatement()) {
-
-            ResultSet rs = stmt.executeQuery(query);
-            ArrayList<SaleProduct> returnProducts = new ArrayList<SaleProduct>();
-            while (rs.next()) {
-                String productId = rs.getString("product_id");
-                int quantity = rs.getInt("quantity");
-                double price = rs.getDouble("price");
-
-                SaleProduct product = SaleProduct.find(productId);
-                product.setPrice(price);
-                product.setQuantity(quantity);
-                product.setSaleId(id);
-                returnProducts.add(product);
-            }
-            return returnProducts;
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-        return null;
-    }
-
     public static ResultSet getResultSet(String query) {
         try {
             Statement stmt = connection.createStatement();
@@ -241,11 +162,11 @@ public class Repository {
             // Load the MySQL JDBC driver
             String driverName = "com.mysql.jdbc.Driver";
             // Create a connection to the database
-            String serverName = "192.168.0.99";
+            String serverName = "localhost";
             String schema = MiniPOSConfig.DB_NAME +"?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
             String url = "jdbc:mysql://" + serverName +  "/" + schema;
-            String username = "mini";
-            String password = "mini";
+            String username = "root";
+            String password = "asdf123457";
             connection = DriverManager.getConnection(url, username, password);
             System.out.println("Successfully Connected to the database!");
             Repository.connection = connection;
