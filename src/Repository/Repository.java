@@ -6,7 +6,6 @@
 package Repository;
 
 import Config.MiniPOSConfig;
-import Sale.Sale;
 import Product.Product;
 import java.sql.CallableStatement;
 import java.sql.Connection;
@@ -15,11 +14,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import Product.POProduct;
-import Stock.PurchasedOrder;
-import Product.SaleProduct;
 import User.User;
 
 /**

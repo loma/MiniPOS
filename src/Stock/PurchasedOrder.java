@@ -23,9 +23,10 @@ public class PurchasedOrder extends Order {
             String query = getUpdateSQL();
             Repository.executeUpdate(query);
             for(Product p: products){
-                if (p.getPOId() > 0)
-                    p.update(this.id);
-                else {
+                if (p.getPOId() > 0) {
+                    p.update();
+                    p.setPOId(this.id);
+                } else {
                     p.setPOId(this.id);
                     p.save(this.id);
                     p.increaseQuantity();

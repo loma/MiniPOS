@@ -22,56 +22,23 @@ public class ProductGenerator {
         this.product = p;
     }
     public Product createProduct(ResultSet resultSet) {
-        String className = product.getClass().getName(); 
-        switch(className){
-            case "Product.POProduct":
-                return createProductForPOProduct(resultSet);
-            case "Product.SaleProduct":
-                return createProductForSale(resultSet);
-            case "Product.Product":
-                return createProductForProduct(resultSet);
+        switch(product.getType()){
+            case PO:
+            case SALE:
+            case PRODUCT:
+                return createProduct(resultSet, product.getType());
         }
         return null;
     }
 
-    private Product createProductForProduct(ResultSet resultSet) {
+    private Product createProduct(ResultSet resultSet, ProductType type) {
         try {
             while (resultSet.next()) {
                 String name = resultSet.getString("name");
                 String productId = resultSet.getString("id");
                 double price = resultSet.getDouble("price");
                 double poPrice = resultSet.getDouble("purchased_price");
-                return new Product(productId, name, price, poPrice);
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(Product.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
-    }
-    
-
-    private POProduct createProductForPOProduct(ResultSet resultSet) {
-        try {
-            while (resultSet.next()) {
-                String name = resultSet.getString("name");
-                String productId = resultSet.getString("id");
-                double price = resultSet.getDouble("price");
-                double poPrice = resultSet.getDouble("purchased_price");
-                return new POProduct(productId, name, price, poPrice);
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(Product.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
-    }
-    private SaleProduct createProductForSale(ResultSet resultSet) {
-        try {
-            while (resultSet.next()) {
-                String name = resultSet.getString("name");
-                String productId = resultSet.getString("id");
-                double price = resultSet.getDouble("price");
-                double poPrice = resultSet.getDouble("purchased_price");
-                return new SaleProduct(productId, name, price, poPrice);
+                return new Product(productId, name, price, poPrice, type);
             }
         } catch (SQLException ex) {
             Logger.getLogger(Product.class.getName()).log(Level.SEVERE, null, ex);

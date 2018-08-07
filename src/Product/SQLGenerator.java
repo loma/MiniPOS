@@ -19,12 +19,12 @@ public class SQLGenerator {
 
     String getInsertSQL() {
         String className = product.getClass().getName(); 
-        switch(className){
-            case "Product.POProduct":
+        switch(product.getType()){
+            case PO:
                 return getInsertSQLPODetails();
-            case "Product.SaleProduct":
+            case SALE:
                 return getInsertSQLSaleDetails();
-            case "Product.Product":
+            case PRODUCT:
                 return getInsertSQLProduct();
         }
         return "";
@@ -57,6 +57,35 @@ public class SQLGenerator {
             + "values(%d, '%s', %d, %f);",
             product.getPOId(), product.getId(), 
             product.getQuantity(), product.price()
+        );
+    }
+
+    String getUpdateSQL() {
+        String className = product.getClass().getName(); 
+        switch(product.getType()){
+            case SALE:
+                return getUpdateSQLSaleDetails();
+            case PRODUCT:
+                return getUpdateSQLProduct();
+        }
+        return "";
+    }
+    private String getUpdateSQLProduct() {
+        return String.format("update products set name='%s', price=%f where id ='%s';", 
+            product.getName(), 
+            product.price(),
+            product.getId()
+        );
+    }
+
+    private String getUpdateSQLSaleDetails() {
+        return String.format(
+            "update sale_details set quantity=%d, price=%f "
+                + "where sale_id=%d and product_id='%s'; ",
+            product.getQuantity(),
+            product.price(),
+            product.getSaleId(),
+            product.getId()
         );
     }
     

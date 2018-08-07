@@ -7,14 +7,11 @@ package minipos;
 
 import User.User;
 import Stock.PurchasedOrder;
-import Product.POProduct;
-import Product.SaleProduct;
 import Repository.Repository;
 import Sale.Sale;
 import Sale.SaleStatus;
 import Product.Product;
-import Product.ProductGenerator;
-import Product.SQLGenerator;
+import Product.ProductType;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -85,10 +82,7 @@ public class MiniPOS {
                 case "01":
                     System.out.print("Product Id: ");
                     String id = scanner.nextLine();
-                    Product saleProduct = findSaleProduct(id);
-                    saleProduct.setSQLGenerator(
-                        new SQLGenerator(saleProduct)
-                    );
+                    Product saleProduct = findProduct(id, ProductType.SALE);
                     sale.addProduct(saleProduct);
                     sale.printReceipt();
                     break;
@@ -96,7 +90,7 @@ public class MiniPOS {
                     System.out.print("Product Id: ");
                     id = scanner.nextLine();
 
-                    Product newPoProduct = findPOProduct(id);
+                    Product newPoProduct = findProduct(id, ProductType.PO);
                     po.addProduct(newPoProduct);
                     po.printReceipt();
 
@@ -111,7 +105,7 @@ public class MiniPOS {
                     System.out.print("Product Id: ");
                     id = scanner.nextLine();
 
-                    saleProduct = findSaleProduct(id);
+                    saleProduct = findProduct(id, ProductType.SALE);
                     sale.removeProduct(saleProduct);
                     sale.printReceipt();
                     break;
@@ -119,7 +113,7 @@ public class MiniPOS {
                     System.out.print("Product Id: ");
                     id = scanner.nextLine();
 
-                    newPoProduct = (new POProduct()).find(id);
+                    newPoProduct = (new Product(ProductType.PO)).find(id);
                     po.removeProduct(newPoProduct);
                     po.printReceipt();
                     break;
@@ -174,8 +168,7 @@ public class MiniPOS {
                     System.out.print("purchased price: ");
                     double poPrice = scanner.nextDouble();
 
-                    Product p = new Product(id, name, price, poPrice);
-                    p.setSQLGenerator(new SQLGenerator(p));
+                    Product p = new Product(id, name, price, poPrice, ProductType.PRODUCT);
                     p.save(0);
 
                     break;
@@ -184,7 +177,7 @@ public class MiniPOS {
                     System.out.print("id: ");
                     id = scanner.nextLine();
 
-                    p = findProduct(id);
+                    p = findProduct(id, ProductType.PRODUCT);
                     p.delete();
 
                     break;
@@ -192,7 +185,7 @@ public class MiniPOS {
                 case "6":
                     System.out.print("id: ");
                     id = scanner.nextLine();
-                    p = findProduct(id);
+                    p = findProduct(id, ProductType.PRODUCT);
 
 
                     System.out.print("name ("+p.getName()+"): ");
@@ -264,31 +257,8 @@ public class MiniPOS {
         }
     }
 
-    private static Product findPOProduct(String id) {
-        POProduct tempSaleProduct = new POProduct();
-        tempSaleProduct.setProductGenerator(
-            new ProductGenerator(tempSaleProduct)
-        );
-        Product saleProduct = tempSaleProduct.find(id);
-        return saleProduct;
-    }
-    public static Product findSaleProduct(String id) {
-        SaleProduct tempSaleProduct = new SaleProduct();
-        tempSaleProduct.setProductGenerator(
-            new ProductGenerator(tempSaleProduct)
-        );
-        Product saleProduct = tempSaleProduct.find(id);
-        return saleProduct;
-    }
-
-    private static Product findProduct(String id) {
-        Product p;
-        Product tempProduct = new Product();
-        tempProduct.setProductGenerator(
-            new ProductGenerator(tempProduct)
-        );
-        p = tempProduct.find(id);
-        return p;
+    public static Product findProduct(String id, ProductType type) {
+        return new Product(type).find(id);
     }
 
 
@@ -306,16 +276,6 @@ public class MiniPOS {
                 double price = rs.getDouble("price");
                 System.out.println(String.format("%s\t%s\t\t%.2f", id, name, price));
             }
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-    }
-    private static void insertProduct(Connection connection) {
-        String query = "insert into products values(2,'Apple');";
-        try (Statement stmt = connection.createStatement()) {
-
-            int result = stmt.executeUpdate(query);
-            System.out.println(result);
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }

@@ -7,9 +7,6 @@ package Product;
 
 import Repository.Repository;
 import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -19,25 +16,30 @@ public class Product {
 
     String name;
     int quantity = 1;
-
     String id;
     protected int saleId;
     protected int poId;
-
     protected double price;
     protected double poPrice;
 
     SQLGenerator sqlGenerator;
     ProductGenerator productGenerator;
+    private ProductType type;
 
-    public Product(String id, String name, double price, double poPrice) {
+    public Product(ProductType type) {
+        this.type = type;
+        this.sqlGenerator = new SQLGenerator(this);
+        this.productGenerator = new ProductGenerator(this);
+    }
+
+    public Product(String id, String name, double price, double poPrice, ProductType type) {
         this.id = id;
         this.name = name;
         this.price = price;
         this.poPrice = poPrice;
-    }
-
-    public Product() {
+        this.type = type;
+        this.sqlGenerator = new SQLGenerator(this);
+        this.productGenerator = new ProductGenerator(this);
     }
 
     public int getSaleId() {
@@ -48,7 +50,7 @@ public class Product {
     }
 
     public double price() {
-        return price;
+        return (type == ProductType.PO) ? poPrice :price;
     }
 
     public String getName() {
@@ -84,29 +86,16 @@ public class Product {
         return String.format("select * from products where id='%s';", id);
     }
 
-    public void setProductGenerator(ProductGenerator generator){
-        this.productGenerator = generator;
-    }
     public Product find(String id) {
         String findSQL = getFindSQL(id);
         ResultSet resultSet = Repository.getResultSet(findSQL);
         return productGenerator.createProduct(resultSet);
     }
-    private String getUpdateSQL() {
-        return String.format("update products set name='%s', price=%f where id ='%s';", 
-            getName(), 
-            price(),
-            getId()
-        );
-    }
     public void update() {
-        String updateSQL = getUpdateSQL();
+        String updateSQL = sqlGenerator.getUpdateSQL();
         Repository.executeUpdate(updateSQL);
     }
 
-    public void setSQLGenerator(SQLGenerator generator){
-        this.sqlGenerator = generator;
-    }
     public void save(int id) {
         String insertSQL = sqlGenerator.getInsertSQL();
         Repository.executeUpdate(insertSQL);
@@ -118,9 +107,6 @@ public class Product {
 
     public void decreaseQuantity(int i) {
         this.quantity -= i;
-    }
-
-    public void update(int saleId) {
     }
 
     public void setSaleId(int id) {
@@ -138,6 +124,10 @@ public class Product {
     public void increaseQuantity() {
         String query = "update products set quantity=quantity +" + this.getQuantity() + " where id='" + this.getId() + "';";
         Repository.executeUpdate(query);
+    }
+
+    public ProductType getType() {
+        return type;
     }
 
 }

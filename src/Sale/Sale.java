@@ -5,17 +5,13 @@
  */
 package Sale;
 
-import Product.SaleProduct;
 import Repository.Repository;
 import Product.Product;
+import Product.ProductType;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
-import Product.POProduct;
 import minipos.MiniPOS;
 
 /**
@@ -71,7 +67,7 @@ public class Sale extends Order {
 
                 String productId = rs.getString("product_id");
                 
-                Product product = MiniPOS.findSaleProduct(productId);
+                Product product = MiniPOS.findProduct(productId, ProductType.SALE);
                 int quantity = rs.getInt("quantity");
                 double price = rs.getDouble("price");
                 product.setPrice(price);
@@ -106,9 +102,10 @@ public class Sale extends Order {
             String query = getUpdateSQL();
             Repository.executeUpdate(query);
             for(Product p: products){
-                if (p.getSaleId() > 0)
-                    p.update(this.id);
-                else {
+                if (p.getSaleId() > 0) {
+                    p.update();
+                    p.setSaleId(this.id);
+                } else {
                     p.setSaleId(this.id);
                     p.save(this.id);
                     p.decreaseQuantity();
