@@ -112,9 +112,6 @@ public class Product {
         Repository.executeUpdate(insertSQL);
     }
 
-
-
-
     public void increaseQuantity(int i) {
         this.quantity += i;
     }
@@ -122,7 +119,6 @@ public class Product {
     public void decreaseQuantity(int i) {
         this.quantity -= i;
     }
-
 
     public void update(int saleId) {
     }
@@ -143,7 +139,5 @@ public class Product {
         String query = "update products set quantity=quantity +" + this.getQuantity() + " where id='" + this.getId() + "';";
         Repository.executeUpdate(query);
     }
-
-
 
 }

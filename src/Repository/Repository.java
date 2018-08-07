@@ -162,7 +162,7 @@ public class Repository {
             // Load the MySQL JDBC driver
             String driverName = "com.mysql.jdbc.Driver";
             // Create a connection to the database
-            String serverName = "localhost";
+            String serverName = MiniPOSConfig.SERVER;
             String schema = MiniPOSConfig.DB_NAME +"?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
             String url = "jdbc:mysql://" + serverName +  "/" + schema;
             String username = MiniPOSConfig.DB_USERNAME;
