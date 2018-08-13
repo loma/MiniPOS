@@ -6,16 +6,40 @@
 package Printer;
 
 import Sale.Order;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author loma
  */
-public class FilePrinter implements IPrinter {
+public class FilePrinter extends IPrinter {
+
+    PrintWriter printWriter;
+    public FilePrinter(){
+        File file = new File("printer.txt");
+        try {
+            printWriter = new PrintWriter(file);
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(FilePrinter.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
     @Override
-    public void print(Order order) {
-        // print to file by id
+    void println(String message) {
+        printWriter.println(message);
     }
-    
+
+    @Override
+    void println() {
+        printWriter.println();
+    }
+
+    @Override
+    public void close() {
+        printWriter.close();
+    }
 }

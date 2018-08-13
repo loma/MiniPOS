@@ -5,6 +5,7 @@
  */
 package Sale;
 
+import Printer.FilePrinter;
 import Printer.IPrinter;
 import Printer.TerminalPrinter;
 import Product.Product;
@@ -148,8 +149,10 @@ public class Order {
     }
 
     public void printReceipt() {
+        //IPrinter printer = new FilePrinter();
         IPrinter printer = new TerminalPrinter();
         printer.print(this);
+        printer.close();
     }
 
     public void save() {
