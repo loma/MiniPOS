@@ -5,12 +5,10 @@
         <group>
             <file>file:/Users/loma/course/practical_java/MiniPOS/src/Product/ProductGenerator.java</file>
             <file>file:/Users/loma/course/practical_java/MiniPOS/src/minipos/MiniPOS.java</file>
-            <file>file:/Users/loma/course/practical_java/MiniPOS/src/Product/SaleProduct.java</file>
             <file>file:/Users/loma/course/practical_java/MiniPOS/src/Product/Product.java</file>
-            <file>file:/Users/loma/course/practical_java/MiniPOS/src/Product/POProduct.java</file>
             <file>file:/Users/loma/course/practical_java/MiniPOS/src/Product/SQLGenerator.java</file>
-            <file>file:/Users/loma/course/practical_java/MiniPOS/src/Sale/Sale.java</file>
-            <file>file:/Users/loma/course/practical_java/MiniPOS/src/Stock/PurchasedOrder.java</file>
+            <file>file:/Users/loma/course/practical_java/MiniPOS/src/Sale/Order.java</file>
+            <file>file:/Users/loma/course/practical_java/MiniPOS/test/SQLGeneratorTest.java</file>
         </group>
     </open-files>
 </project-private>
