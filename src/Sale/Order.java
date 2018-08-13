@@ -5,6 +5,8 @@
  */
 package Sale;
 
+import Printer.IPrinter;
+import Printer.TerminalPrinter;
 import Product.Product;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -146,33 +148,8 @@ public class Order {
     }
 
     public void printReceipt() {
-
-        System.out.println("Date: \t\t" + getSaleOnString());
-        System.out.println("Order by: \t" + getSaleBy());
-        System.out.println("Status: \t" + getStatus());
-        System.out.println("Order Id: \t" + getId());
-        System.out.println("Name\t\tQty\tPrice\t\tTotal");
-        System.out.println("-------------------------------------------------------");
-        for (Product p : getAllProducts())
-            System.out.println(
-                String.format("%s\t\t%d\t%.2f\t\t%.2f", 
-                    p.getName(), p.getQuantity(), p.price(), p.price() * p.getQuantity()));
-        System.out.println("-------------------------------------------------------");
-        System.out.println("\t\t\t\tTotal:\t" +getTotalPrice());
-        System.out.println("\t\t\t     Discount:\t" +getTotalDiscount());
-        System.out.println("\t\t\t     --------------------------");
-        System.out.println(String.format("\t\t\t\t  VAT:\t%.2f", getVAT()));
-        System.out.println("\t\t\t     Subtotal:\t" +subTotal());
-        System.out.println("\t\t\t     --------------------------");
-        System.out.println("\t\t\t\t Paid:\t" +getTotalPayment());
-        if (getTotalRemaining() >0)
-            System.out.println("\t\t\t    Remaining:\t" +getTotalRemaining());
-
-        if (getTotalChanges() >= 0)
-            System.out.println("\t\t      Changes:\t" +getTotalChanges());
-
-        System.out.println();
-        System.out.println();
+        IPrinter printer = new TerminalPrinter();
+        printer.print(this);
     }
 
     public void save() {
