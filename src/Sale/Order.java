@@ -5,7 +5,6 @@
  */
 package Sale;
 
-import Printer.FilePrinter;
 import Printer.IPrinter;
 import Printer.TerminalPrinter;
 import Product.Product;
@@ -18,7 +17,7 @@ import java.util.Date;
  *
  * @author Keo
  */
-public class Order {
+public abstract class Order {
 
     protected String name;
     protected int id;
@@ -155,8 +154,7 @@ public class Order {
         printer.close();
     }
 
-    public void save() {
-    }
+    public abstract void save();
 
     public static Order find(int id) {
         return null;

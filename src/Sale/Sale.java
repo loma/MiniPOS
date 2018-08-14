@@ -20,6 +20,8 @@ import minipos.MiniPOS;
  */
 public class Sale extends Order {
 
+    SQLGenerator sql = new SQLGenerator(OrderType.SALE);
+
     public Sale() {
     }
 
@@ -31,6 +33,9 @@ public class Sale extends Order {
         this.status = SaleStatus.values()[status];
         this.saleOn = saleOn;
         this.saleBy = saleBy;
+
+        // temporary
+        sql.setOrder(this);
     }
 
     public static Sale find(int id) {
@@ -82,21 +87,7 @@ public class Sale extends Order {
         return null;
     }
 
-
-    private String getInsertSQL() {
-        return String.format(
-            "insert into sales (total, discount, paid, vat, sale_on, sale_by, status) "
-                + "values(%f, %f, %f, %f, '%s', '%s', %d);", 
-            getTotalPrice(), 
-            getTotalDiscount(), 
-            getTotalPayment(),
-            VAT(),
-            getSaleOnString(),
-            getSaleBy(),
-            getStatus().ordinal()
-        );
-    }
-
+    @Override
     public void save() {
         if (this.id > 0) {
             String query = getUpdateSQL();
@@ -112,7 +103,7 @@ public class Sale extends Order {
                 }
             }
         } else {
-            String insertSQL = getInsertSQL();
+            String insertSQL = sql.getInsertSQL();
             int saleId = Repository.executeUpdateWithLastId(insertSQL);
 
             this.id = saleId;

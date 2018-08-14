@@ -8,6 +8,8 @@ package Stock;
 import Repository.Repository;
 import Sale.Order;
 import Product.Product;
+import Sale.OrderType;
+import Sale.SQLGenerator;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -18,6 +20,11 @@ import java.util.Date;
  * @author loma
  */
 public class PurchasedOrder extends Order {
+
+    SQLGenerator sql = new SQLGenerator(OrderType.PO);
+    public PurchasedOrder(){
+        sql.setOrder(this);
+    }
     public void save() {
         if (this.id > 0) {
             String query = getUpdateSQL();
@@ -33,7 +40,7 @@ public class PurchasedOrder extends Order {
                 }
             }
         } else {
-            String insertSQL = getInsertSQL();
+            String insertSQL = sql.getInsertSQL();
             int saleId = Repository.executeUpdateWithLastId(insertSQL);
 
             this.id = saleId;
@@ -55,13 +62,4 @@ public class PurchasedOrder extends Order {
         );
     }
 
-    private String getInsertSQL() {
-        return String.format(
-            "insert into purchased_order (total, purchased_on, purchased_by) "
-                + "values(%f, '%s', '%s');", 
-            getTotalPrice(), 
-            getSaleOnString(),
-            getSaleBy()
-        );
-    }
 }
