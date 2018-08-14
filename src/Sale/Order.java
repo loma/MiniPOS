@@ -8,6 +8,7 @@ package Sale;
 import Printer.IPrinter;
 import Printer.TerminalPrinter;
 import Product.Product;
+import Repository.Repository;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -17,7 +18,7 @@ import java.util.Date;
  *
  * @author Keo
  */
-public abstract class Order {
+public class Order {
 
     protected String name;
     protected int id;
@@ -28,6 +29,8 @@ public abstract class Order {
     protected Date saleOn;
     protected String saleBy = "";
     protected SaleStatus status;
+    private OrderType type;
+    private OrderSQLGenerator sql;
 
     public Order() {
         this.saleOn = new Date();
@@ -154,7 +157,36 @@ public abstract class Order {
         printer.close();
     }
 
-    public abstract void save();
+    public void save(){
+        if (this.id > 0) {
+            String query = sql.getUpdateSQL();
+            Repository.executeUpdate(query);
+
+            for(Product p: products){
+                if (p.getRefId() > 0) {
+                    p.update();
+                    p.setRefId(this.id);
+                } else {
+                    p.setRefId(this.id);
+                    p.save(this.id);
+                    query = sql.getUpdateQuantitySQL(p);
+                    Repository.executeUpdate(query);
+                }
+            }
+        } else {
+            String insertSQL = sql.getInsertSQL();
+            int id = Repository.executeUpdateWithLastId(insertSQL);
+
+            this.id = id;
+            if (id > 0)
+                for(Product p: products){
+                    p.setRefId(id);
+                    p.save(id);
+                    String query = sql.getUpdateQuantitySQL(p);
+                    Repository.executeUpdate(query);
+                }
+        }
+    }
 
     public static Order find(int id) {
         return null;
@@ -181,6 +213,11 @@ public abstract class Order {
 
     public void status(SaleStatus saleStatus) {
         this.status = saleStatus;
+    }
+
+    public void setType(OrderType type) {
+        this.type = type;
+        sql = new OrderSQLGenerator(type);
     }
 
 }

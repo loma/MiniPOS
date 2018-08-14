@@ -5,6 +5,8 @@
  */
 package Sale;
 
+import Product.Product;
+
 /**
  *
  * @author loma
@@ -16,6 +18,27 @@ public class OrderSQLGenerator {
 
     public OrderSQLGenerator(OrderType type) {
         this.type = type;
+    }
+
+    public String getUpdateQuantitySQL(Product p) {
+        switch(this.type){
+            case PO:
+                return getUpdateQuantitySQLPO(p);
+            case SALE:
+                return getUpdateQuantitySQLSale(p);
+        }
+        return "";
+    }
+
+    private String getUpdateQuantitySQLPO(Product p) {
+        String query = "update products set quantity=quantity + " + p.getQuantity() + " where id='" + p.getId() + "';";
+        return query;
+    }
+
+
+    private String getUpdateQuantitySQLSale(Product p) {
+        String query = "update products set quantity=quantity - " + p.getQuantity() + " where id='" + p.getId() + "';";
+        return query;
     }
 
     public String getInsertSQL() {

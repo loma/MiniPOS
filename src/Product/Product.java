@@ -17,8 +17,7 @@ public class Product {
     String name;
     int quantity = 1;
     String id;
-    protected int saleId;
-    protected int poId;
+    protected int refId;
     protected double price;
     protected double poPrice;
 
@@ -42,11 +41,8 @@ public class Product {
         this.productGenerator = new ProductGenerator(this);
     }
 
-    public int getSaleId() {
-        return saleId;
-    }
-    public int getPOId() {
-        return poId;
+    public int getRefId() {
+        return refId;
     }
 
     public double price() {
@@ -109,22 +105,13 @@ public class Product {
         this.quantity -= i;
     }
 
-    public void setSaleId(int id) {
-        this.saleId = id;
-    }
-    public void setPOId(int id) {
-        this.poId = id;
+    public void setRefId(int id) {
+        this.refId = id;
     }
 
-    public void decreaseQuantity() {
-        String query = "update products set quantity = quantity-" + this.getQuantity() + " where id='" + this.getId() + "';";
-        Repository.executeUpdate(query);
-    }
 
-    public void increaseQuantity() {
-        String query = "update products set quantity=quantity +" + this.getQuantity() + " where id='" + this.getId() + "';";
-        Repository.executeUpdate(query);
-    }
+
+
 
     public ProductType getType() {
         return type;

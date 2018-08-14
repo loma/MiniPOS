@@ -6,12 +6,13 @@
 package minipos;
 
 import User.User;
-import Stock.PurchasedOrder;
 import Repository.Repository;
-import Sale.Sale;
 import Sale.SaleStatus;
 import Product.Product;
 import Product.ProductType;
+import Sale.Order;
+import Sale.OrderSQLGenerator;
+import Sale.OrderType;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -42,8 +43,12 @@ public class MiniPOS {
             user.login(username, password);
         }
 
-        Sale sale = new Sale();
-        PurchasedOrder po = new PurchasedOrder();
+        Order sale = new Order();
+        sale.setType(OrderType.SALE);
+
+        Order po = new Order();
+        po.setType(OrderType.PO);
+
         sale.saleBy(user.getName());
         sale.status(SaleStatus.OPEN);
 
@@ -82,7 +87,7 @@ public class MiniPOS {
                 case "01":
                     System.out.print("Product Id: ");
                     String id = scanner.nextLine();
-                    Product saleProduct = findProduct(id, ProductType.SALE);
+                    Product saleProduct = Repository.findProduct(id, ProductType.SALE);
                     sale.addProduct(saleProduct);
                     sale.printReceipt();
                     break;
@@ -90,7 +95,7 @@ public class MiniPOS {
                     System.out.print("Product Id: ");
                     id = scanner.nextLine();
 
-                    Product newPoProduct = findProduct(id, ProductType.PO);
+                    Product newPoProduct = Repository.findProduct(id, ProductType.PO);
                     po.addProduct(newPoProduct);
                     po.printReceipt();
 
@@ -105,7 +110,7 @@ public class MiniPOS {
                     System.out.print("Product Id: ");
                     id = scanner.nextLine();
 
-                    saleProduct = findProduct(id, ProductType.SALE);
+                    saleProduct = Repository.findProduct(id, ProductType.SALE);
                     sale.removeProduct(saleProduct);
                     sale.printReceipt();
                     break;
@@ -144,10 +149,12 @@ public class MiniPOS {
                     int saleId = scanner.nextInt();
                     scanner.nextLine();
 
-                    sale = Sale.find(saleId); 
+                    sale = Repository.findOrder(saleId); 
                     break;
                 case "09":
-                    sale = new Sale();
+                    sale = new Order();
+                    sale.setType(OrderType.SALE);
+
                     sale.saleBy(user.getName());
                     sale.status(SaleStatus.OPEN);
                     break;
@@ -177,7 +184,7 @@ public class MiniPOS {
                     System.out.print("id: ");
                     id = scanner.nextLine();
 
-                    p = findProduct(id, ProductType.PRODUCT);
+                    p = Repository.findProduct(id, ProductType.PRODUCT);
                     p.delete();
 
                     break;
@@ -185,7 +192,7 @@ public class MiniPOS {
                 case "6":
                     System.out.print("id: ");
                     id = scanner.nextLine();
-                    p = findProduct(id, ProductType.PRODUCT);
+                    p = Repository.findProduct(id, ProductType.PRODUCT);
 
 
                     System.out.print("name ("+p.getName()+"): ");
@@ -257,9 +264,6 @@ public class MiniPOS {
         }
     }
 
-    public static Product findProduct(String id, ProductType type) {
-        return new Product(type).find(id);
-    }
 
 
     private static void showAllproducts() {

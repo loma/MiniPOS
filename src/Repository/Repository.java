@@ -7,6 +7,9 @@ package Repository;
 
 import Config.MiniPOSConfig;
 import Product.Product;
+import Product.ProductType;
+import Sale.Order;
+import Sale.OrderType;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -16,6 +19,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import User.User;
+import java.util.Date;
 
 /**
  *
@@ -24,6 +28,60 @@ import User.User;
 public class Repository {
 
     static Connection connection;
+
+    public static Order findOrder(int id) {
+        String query = String.format("select * from sales where id=%d;", id);
+
+        ResultSet rs = Repository.getResultSet(query);
+        try {
+            while (rs.next()) {
+                double payment  = rs.getDouble("paid");
+                double discount  = rs.getDouble("discount");
+                double vat  = rs.getDouble("vat");
+                int status  = rs.getInt("status");
+                Date saleOn  = rs.getDate("sale_on");
+                String saleBy  = rs.getString("sale_by");
+                Order sale = new Order(id, discount, vat, payment, status, saleOn, saleBy);
+                sale.setType(OrderType.SALE);
+                
+                sale.addProducts(findOrderBySaleId(id));
+
+                return sale;
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
+    }
+
+    public static Product findProduct(String id, ProductType type) {
+        return new Product(type).find(id);
+    }
+
+    private static ArrayList<Product> findOrderBySaleId(int id) {
+        String query = String.format("select * from sale_details where sale_id=%d;", id);
+        
+        ResultSet rs = Repository.getResultSet(query);
+        try {
+            ArrayList<Product> returnProducts = new ArrayList<Product>();
+            while (rs.next()) {
+
+                String productId = rs.getString("product_id");
+                
+                Product product = findProduct(productId, ProductType.SALE);
+                int quantity = rs.getInt("quantity");
+                double price = rs.getDouble("price");
+                product.setPrice(price);
+                product.setQuantity(quantity);
+                product.setRefId(id);
+                returnProducts.add(product);
+            }
+            return returnProducts;
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
+    }
 
     public static void deleteProduct(Product product) {
         String query = String.format("delete from products where id='%s'", product.getId());

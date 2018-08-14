@@ -34,7 +34,7 @@ public class ProductSQLGenerator {
             "insert into sale_details "
             + "(sale_id, product_id, quantity, price) "
             + "values(%d, '%s', %d, %f);",
-            product.getSaleId(), product.getId(), 
+            product.getRefId(), product.getId(), 
             product.getQuantity(), product.price()
         );
     }
@@ -54,7 +54,7 @@ public class ProductSQLGenerator {
             "insert into purchased_order_details "
             + "(purchased_order_id,product_id,quantity,price) "
             + "values(%d, '%s', %d, %f);",
-            product.getPOId(), product.getId(), 
+            product.getRefId(), product.getId(), 
             product.getQuantity(), product.price()
         );
     }
@@ -83,7 +83,7 @@ public class ProductSQLGenerator {
                 + "where sale_id=%d and product_id='%s'; ",
             product.getQuantity(),
             product.price(),
-            product.getSaleId(),
+            product.getRefId(),
             product.getId()
         );
     }
