@@ -108,6 +108,5 @@ public class OrderSQLGenerator {
     public void setOrder(Order order) {
         this.order = order;
     }
-
     
 }

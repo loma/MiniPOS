@@ -10,6 +10,6 @@ package Product;
  * @author loma
  */
 public enum ProductType {
-    PRODUCT, SALE, PO
+    PRODUCT, SALE, PO, TRANSFER
     
 }

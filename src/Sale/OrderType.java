@@ -10,5 +10,5 @@ package Sale;
  * @author loma
  */
 public enum OrderType {
-    SALE, PO
+    SALE, PO, TRANSFER
 }
