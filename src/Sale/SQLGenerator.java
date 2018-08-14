@@ -28,6 +28,35 @@ public class SQLGenerator {
         return "";
     }
 
+    public String getUpdateSQL() {
+        switch(this.type){
+            case PO:
+                return getUpdateSQLPO();
+            case SALE:
+                return getUpdateSQLSale();
+        }
+        return "";
+    }
+    private String getUpdateSQLPO() {
+        return String.format(
+            "update purchased_order set total=%f "
+                + " where id=%d;", 
+            order.getTotalPrice(), 
+            order.getId()
+        );
+    }
+    private String getUpdateSQLSale() {
+        return String.format(
+            "update sales set total=%f, discount=%f, paid=%f "
+                + " where id=%d;", 
+            order.getTotalPrice(), 
+            order.getTotalDiscount(), 
+            order.getTotalPayment(),
+            order.getId()
+        );
+    }
+
+
     private String getInsertSQLPO() {
         return String.format(
             "insert into purchased_order (total, purchased_on, purchased_by) "

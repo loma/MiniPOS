@@ -27,7 +27,7 @@ public class PurchasedOrder extends Order {
     }
     public void save() {
         if (this.id > 0) {
-            String query = getUpdateSQL();
+            String query = sql.getUpdateSQL();
             Repository.executeUpdate(query);
             for(Product p: products){
                 if (p.getPOId() > 0) {
@@ -51,15 +51,6 @@ public class PurchasedOrder extends Order {
                     p.increaseQuantity();
                 }
         }
-    }
-
-    private String getUpdateSQL() {
-        return String.format(
-            "update purchased_order set total=%f "
-                + " where id=%d;", 
-            getTotalPrice(), 
-            getId()
-        );
     }
 
 }

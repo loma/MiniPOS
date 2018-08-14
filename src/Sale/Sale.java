@@ -90,7 +90,7 @@ public class Sale extends Order {
     @Override
     public void save() {
         if (this.id > 0) {
-            String query = getUpdateSQL();
+            String query = sql.getUpdateSQL();
             Repository.executeUpdate(query);
             for(Product p: products){
                 if (p.getSaleId() > 0) {
@@ -116,14 +116,4 @@ public class Sale extends Order {
         }
     }
 
-    private String getUpdateSQL() {
-        return String.format(
-            "update sales set total=%f, discount=%f, paid=%f "
-                + " where id=%d;", 
-            getTotalPrice(), 
-            getTotalDiscount(), 
-            getTotalPayment(),
-            getId()
-        );
-    }
 }
