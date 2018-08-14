@@ -9,11 +9,11 @@ package Product;
  *
  * @author loma
  */
-public class SQLGenerator {
+public class ProductSQLGenerator {
 
     private final Product product;
 
-    public SQLGenerator(Product p){
+    public ProductSQLGenerator(Product p){
         this.product = p;
     }
 

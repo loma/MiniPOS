@@ -6,7 +6,7 @@
 
 import Product.Product;
 import Product.ProductType;
-import Product.SQLGenerator;
+import Product.ProductSQLGenerator;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -43,7 +43,7 @@ public class SQLGeneratorTest {
     public void insertProductSQL() {
         // prepare
         Product p = new Product(ProductType.PRODUCT);
-        SQLGenerator sqlGenerator = new SQLGenerator(p);
+        ProductSQLGenerator sqlGenerator = new ProductSQLGenerator(p);
 
         // execute
         String sqlStatement = sqlGenerator.getInsertSQL();
@@ -56,7 +56,7 @@ public class SQLGeneratorTest {
     public void insertSaleProductSQL() {
         // prepare
         Product p = new Product(ProductType.SALE);
-        SQLGenerator sqlGenerator = new SQLGenerator(p);
+        ProductSQLGenerator sqlGenerator = new ProductSQLGenerator(p);
 
         // execute
         String sqlStatement = sqlGenerator.getInsertSQL();

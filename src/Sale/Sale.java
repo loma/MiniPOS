@@ -20,7 +20,7 @@ import minipos.MiniPOS;
  */
 public class Sale extends Order {
 
-    SQLGenerator sql = new SQLGenerator(OrderType.SALE);
+    OrderSQLGenerator sql = new OrderSQLGenerator(OrderType.SALE);
 
     public Sale() {
     }

@@ -9,12 +9,12 @@ package Sale;
  *
  * @author loma
  */
-public class SQLGenerator {
+public class OrderSQLGenerator {
 
     private final OrderType type;
     private Order order;
 
-    public SQLGenerator(OrderType type) {
+    public OrderSQLGenerator(OrderType type) {
         this.type = type;
     }
 

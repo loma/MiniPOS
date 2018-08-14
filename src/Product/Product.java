@@ -22,13 +22,13 @@ public class Product {
     protected double price;
     protected double poPrice;
 
-    SQLGenerator sqlGenerator;
+    ProductSQLGenerator sqlGenerator;
     ProductGenerator productGenerator;
     private ProductType type;
 
     public Product(ProductType type) {
         this.type = type;
-        this.sqlGenerator = new SQLGenerator(this);
+        this.sqlGenerator = new ProductSQLGenerator(this);
         this.productGenerator = new ProductGenerator(this);
     }
 
@@ -38,7 +38,7 @@ public class Product {
         this.price = price;
         this.poPrice = poPrice;
         this.type = type;
-        this.sqlGenerator = new SQLGenerator(this);
+        this.sqlGenerator = new ProductSQLGenerator(this);
         this.productGenerator = new ProductGenerator(this);
     }
 

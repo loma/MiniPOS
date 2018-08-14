@@ -9,7 +9,7 @@ import Repository.Repository;
 import Sale.Order;
 import Product.Product;
 import Sale.OrderType;
-import Sale.SQLGenerator;
+import Sale.OrderSQLGenerator;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -21,7 +21,7 @@ import java.util.Date;
  */
 public class PurchasedOrder extends Order {
 
-    SQLGenerator sql = new SQLGenerator(OrderType.PO);
+    OrderSQLGenerator sql = new OrderSQLGenerator(OrderType.PO);
     public PurchasedOrder(){
         sql.setOrder(this);
     }
